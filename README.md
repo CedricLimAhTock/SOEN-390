@@ -9,6 +9,15 @@ npm install
 npx expo start
 ```
 
+## Backend
+
+```
+cd backend
+npm install
+node server.js
+```
+
+
 ## Local Development (iOS)
  
 You can install Expo Go on the app store. Use your camera to scan the qr code generated when running `npx expo start`. You should be good to go.
