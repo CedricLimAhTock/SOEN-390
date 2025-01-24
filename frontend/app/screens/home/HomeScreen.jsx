@@ -6,8 +6,12 @@ export default function HomeScreen({ navigation }) {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Home Screen</Text>
       <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
+        title="Go to Caldendar"
+        onPress={() => navigation.navigate('Calendar')}
+      />
+      <Button
+        title="Go to Navigation"
+        onPress={() => navigation.navigate('Navigation')}
       />
     </View>
   );
