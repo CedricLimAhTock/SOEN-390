@@ -14,7 +14,7 @@ npx expo start
 ```
 cd backend
 npm install
-node server.js
+node app.js
 ```
 
 
