@@ -13,6 +13,10 @@ export default function HomeScreen({ navigation }) {
         title="Go to Navigation"
         onPress={() => navigation.navigate('Navigation')}
       />
+       <Button
+        title="Go to Login"
+        onPress={() => navigation.navigate('Login')}
+      />
     </View>
   );
 }
