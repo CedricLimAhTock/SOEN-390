@@ -16,7 +16,7 @@ export default function HomeScreen({ navigation }) {
           alignItems: "center",
           flexDirection: "column",
           gap: 20,
-          paddingTop: 160,
+          paddingTop: 120,
         }}
       >
         <HomeCard image={MapPic} text="Find your next class" />

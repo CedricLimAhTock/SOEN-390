@@ -13,9 +13,9 @@ export default function HomeHeader() {
         borderBottomRightRadius: 60,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.55,
-        shadowRadius: 3.84,
-        elevation: 5,
+        shadowOpacity: 1,
+        shadowRadius: 200,
+        elevation: 10,
       }}
     >
       <View className="flex pl-6 pt-5">
