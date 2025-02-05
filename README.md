@@ -24,8 +24,17 @@ You can install Expo Go on the app store. Use your camera to scan the qr code ge
 
 ## Local Development (Android)
 
-remove this if no one uses android
 
-## Local Development (Emulation)
 
-TODO
+## Local Development (Emulation) (Needed for functionalities involving Auth0) (All terminal commands are to be executed from frontend folder)
+
+(I am guessing that steps 3 to 6 can be skipped since I already created the build, someone please confirm. If not then probably at least step 6.)
+1. Install Android Studio and run an Android emulation. (on my laptop Medium Phone works a lot smoother than Pixel 9 Pro XL)
+2. npm install -g eas-cli
+3. create an expo.dev account online
+4. eas login
+5. eas init
+6. eas build -p android --profile development    (this will take a while to run)
+7. Copy the following link into the browser of your emulator to download the apk file: https://expo.dev/accounts/ricobadir/projects/frontend/builds/01a2cd5c-1cb1-4f24-bdbf-ce83ce1a1d49
+8. npx expo start
+9. press a to open android
