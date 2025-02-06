@@ -66,7 +66,6 @@ export default function Map() {
       >
         {buildings.map((building, idx) => {
       <React.Fragment key={idx}><Polygon
-        key={idx}
         coordinates={building.location}
         strokeWidth={2}
         onPress={handleOverlayClick(building.point)}
@@ -74,13 +73,13 @@ export default function Map() {
         fillColor="rgba(134, 37, 50, 0.5)"
       /></React.Fragment>
     })}
-       {/* <Polygon
+       <Polygon
         coordinates={buildings[0].location}
         strokeWidth={2}
         onPress={handleOverlayClick}
         strokeColor="#862532"
         fillColor="rgba(134, 37, 50, 0.5)"
-      /> 
+      /> {/* 
       { isVisible && 
         <View style={[styles.cardContainer, {top: cardPos.y - 50, left: cardPos.x - 150}]}>
           <MapCard title="Hall Building" content="hall building is there"/>
