@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
-import MapView, { PROVIDER_DEFAULT, Polygon} from 'react-native-maps';
-import { LoyolaLocation, SGWLocation } from "../../screens/navigation/navigationConfig";
+import MapView, { PROVIDER_DEFAULT, PolygonF,Polygon, Overlay, Circle} from 'react-native-maps';
+import { BAnnexOverlay, CLAnnexOverlay, EVOverlay, FaubourgOverlay, JMSBOverlay, LoyolaLocation, SGWLocation } from "../../screens/navigation/navigationConfig";
 import { useTailwind } from 'tailwind-rn';
 import NavigationIcon from './NavigationIcon';
-import { HallBuildingOverlay } from '../../screens/navigation/navigationConfig';
+import { buildings,HallBuildingOverlay, LibraryOverlay, CIAnnexOverlay } from '../../screens/navigation/navigationConfig';
+import MapCard from './MapCard';
 
 export default function Map() {
+
   const [locationData, setLocationData] = useState(SGWLocation);
+  const [isVisible, setIsVisible] = useState(false);
+  const [cardPos, setCardPos] = useState({});
+
+  const mapRef = useRef();
+
   const tailwind = useTailwind();
 
   const handleSetStart = () => {
@@ -17,27 +24,112 @@ export default function Map() {
   const handleGetDirections = () => {
     // handle get directions logic
   };
+  
+  const handleHallBuilding = () => {
+
+  };
+
+  const handleOverlayClick = async (position) => {
+    const point = await mapRef.current.pointForCoordinate(position)
+    setCardPos({
+      x: point.latitude,
+      y: point.longitude
+    });
+
+    setIsVisible(true);
+  }
+
+  const renderPolygons = (buildings) => {
+    buildings.map((building, idx) => {
+      <Polygon
+        coordinates={building.location}
+        strokeWidth={2}
+        onPress={handleOverlayClick(building.point)}
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
+      />
+    })
+  }
 
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        showsBuildings={true}
         initialRegion={{
           latitude: locationData.latitude,
           longitude: locationData.longitude,
           latitudeDelta: 0.009,
           longitudeDelta: 0.009,
         }}
-        mapType="terrain"
+        mapType='terrain'
         provider={PROVIDER_DEFAULT}
+      >
+        {buildings.map((building, idx) => {
+      <React.Fragment key={idx}><Polygon
+        key={idx}
+        coordinates={building.location}
+        strokeWidth={2}
+        onPress={handleOverlayClick(building.point)}
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
+      /></React.Fragment>
+    })}
+       {/* <Polygon
+        coordinates={buildings[0].location}
+        strokeWidth={2}
+        onPress={handleOverlayClick}
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
+      /> 
+      { isVisible && 
+        <View style={[styles.cardContainer, {top: cardPos.y - 50, left: cardPos.x - 150}]}>
+          <MapCard title="Hall Building" content="hall building is there"/>
+        </View>
+
+      }
+      <Polygon
+        coordinates={buildings[1].location}
+        strokeWidth={2}
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
+      /> */}
+      {/*
+      <Polygon
+        coordinates={BAnnexOverlay}
+        strokeWidth={2}
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
       />
       <Polygon
-        coordinates={HallBuildingOverlay}
+        coordinates={CIAnnexOverlay}
         strokeWidth={2}
-        strokeColor="rgba(134, 37, 50, 0.5)"
-        fillColor="rgba(137,37,50,0.2)"
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
       />
+      <Polygon
+        coordinates={EVOverlay}
+        strokeWidth={2}
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
+      />
+      <Polygon
+        coordinates={FaubourgOverlay}
+        strokeWidth={2}
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
+      />
+      <Polygon
+        coordinates={CLAnnexOverlay}
+        strokeWidth={2}
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
+      />
+      <Polygon
+        coordinates={JMSBOverlay}
+        strokeWidth={2}
+        strokeColor="#862532"
+        fillColor="rgba(134, 37, 50, 0.5)"
+      /> */}
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -55,6 +147,7 @@ export default function Map() {
           <Text style={styles.loginText}>Get Directions</Text>
         </TouchableOpacity>
       </View>
+      </MapView>
     </View>
   );
 }
