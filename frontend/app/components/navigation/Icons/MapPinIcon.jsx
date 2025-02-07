@@ -1,16 +1,16 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
-const NavigationIcon = (props) => (
+const MapPinIcon = (props) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    stroke="currentColor"
+    fill="#e8843c"
+    stroke="white"
     strokeWidth={1.5}
-    className="size-8 color-white"
+    aria-hidden="true"
+    data-slot="icon"
+    width={20}
+    height={20}
     viewBox="0 0 24 24"
-    style={{
-        color: 'white'     
-    }}
     {...props}
   >
     <Path
@@ -25,4 +25,4 @@ const NavigationIcon = (props) => (
     />
   </Svg>
 )
-export default NavigationIcon
+export default MapPinIcon

@@ -1,36 +1,36 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import InformationIcon from './Icons/InformationIcon';
+import MapPinIcon from './Icons/MapPinIcon';
+import WheelChairIcon from './Icons/WheelChairIcon';
+import MetroIcon from './Icons/MetroIcon';
 
-const MapCard = ({ title, content }) => {
+
+const MapCard = ({ name, address, isHandicap, isMetro, isInfo}) => {
   return (
-    <View style={styles.card}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.content}>{content}</Text>
+    <View style={styles.shadow} className='flex bg-white p-6 rounded-lg'>
+      <View className='flex flex-row justify-between'> 
+        <Text className='font-bold mr-4'>{name}</Text>
+        <View className='flex flex-row justify-around'>
+          {isHandicap && <WheelChairIcon/>}
+          {isMetro && <MetroIcon/>}
+          {isInfo && <InformationIcon/>}
+        </View>
+      </View>
+      <View className='mt-2 flex flex-row'>
+        <MapPinIcon/>
+        <Text className='color-slate-400'>{address}</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 5,
-    margin: 10,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  content: {
-    fontSize: 16,
-    color: '#333',
-  },
+  shadow: {
+    width: '250px',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+    textAlign: 'center'
+  }
 });
 
 export default MapCard;

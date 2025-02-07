@@ -1,21 +1,26 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
-import MapView, { PROVIDER_DEFAULT, PolygonF,Polygon, Overlay, Circle} from 'react-native-maps';
-import { BAnnexOverlay, CLAnnexOverlay, EVOverlay, FaubourgOverlay, JMSBOverlay, LoyolaLocation, SGWLocation } from "../../screens/navigation/navigationConfig";
-import { useTailwind } from 'tailwind-rn';
-import NavigationIcon from './NavigationIcon';
-import { buildings,HallBuildingOverlay, LibraryOverlay, CIAnnexOverlay } from '../../screens/navigation/navigationConfig';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, View, Text, StyleSheet, Dimensions, TouchableOpacity, TouchableHighlight} from 'react-native';
+import MapView, {Marker, PROVIDER_DEFAULT, Polygon, Callout} from 'react-native-maps';
+import NavigationIcon from './Icons/NavigationIcon';
+import { buildings, SGWLocation, LoyolaLocation} from '../../screens/navigation/navigationConfig';
 import MapCard from './MapCard';
+import MapSearch from './MapSearch';
+import SGWIcon from './Icons/SGWIcon';
+import LoyolaIcon from './Icons/LoyolaIcon'
+import DirectionsIcon from './Icons/DirectionsIcon';
+import MapLocation from './MapLocation';
+import MapResults from './MapResults';
+
 
 export default function Map() {
 
   const [locationData, setLocationData] = useState(SGWLocation);
-  const [isVisible, setIsVisible] = useState(false);
-  const [cardPos, setCardPos] = useState({});
+  const [location, setLocation] = useState(null)
+  const [searchText, setSearchText] = useState('');
+  const [isSearch, setIsSearch] = useState(false);
 
-  const mapRef = useRef();
-
-  const tailwind = useTailwind();
+  const slideAnim = useRef(new Animated.Value(300)).current;
+  const ref = useRef(null);
 
   const handleSetStart = () => {
     // handle set start logic
@@ -24,36 +29,58 @@ export default function Map() {
   const handleGetDirections = () => {
     // handle get directions logic
   };
-  
-  const handleHallBuilding = () => {
 
-  };
-
-  const handleOverlayClick = async (position) => {
-    const point = await mapRef.current.pointForCoordinate(position)
-    setCardPos({
-      x: point.latitude,
-      y: point.longitude
-    });
-
-    setIsVisible(true);
+  const handleLoyola = () => {
+    console.log("aa")
+    ref.current.animateToRegion(LoyolaLocation)
   }
 
-  const renderPolygons = (buildings) => {
-    buildings.map((building, idx) => {
-      <Polygon
-        coordinates={building.location}
-        strokeWidth={2}
-        onPress={handleOverlayClick(building.point)}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      />
-    })
+  const handleSGW = () => {
+    ref.current.animateToRegion(SGWLocation)
   }
+
+  const renderPolygons = buildings.map((building, idx) => {
+    return (
+        <View key={idx}>
+          <Marker
+            coordinate={building.point}
+            image={require("../../../assets/concordia-logo.png")}
+          >
+            <Callout tooltip={true}>
+              <MapCard 
+                name={'EV Building'} 
+                address={'1515 St. Catherine W'}
+                isHandicap={true}
+                isMetro={true}
+                isInfo={true}
+              />
+            </Callout>
+          </Marker>
+          <Polygon
+            coordinates={building.location}
+            strokeWidth={2}
+            strokeColor="#862532"
+            fillColor="rgba(134, 37, 50, 0.5)"
+          />
+        </View>
+      
+    )
+  })
+
+  useEffect(() => {
+    if (!isSearch) return;
+    console.log("trying to animate")
+    Animated.timing(slideAnim, {
+      toValue: 0, 
+      duration: 500, 
+      useNativeDriver: true, 
+    }).start();
+  },[isSearch])
 
   return (
     <View style={styles.container}>
       <MapView
+        ref={ref}
         style={styles.map}
         initialRegion={{
           latitude: locationData.latitude,
@@ -64,99 +91,69 @@ export default function Map() {
         mapType='terrain'
         provider={PROVIDER_DEFAULT}
       >
-        {buildings.map((building, idx) => {
-      <React.Fragment key={idx}><Polygon
-        coordinates={building.location}
-        strokeWidth={2}
-        onPress={handleOverlayClick(building.point)}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      /></React.Fragment>
-    })}
-       <Polygon
-        coordinates={buildings[0].location}
-        strokeWidth={2}
-        onPress={handleOverlayClick}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      /> {/* 
-      { isVisible && 
-        <View style={[styles.cardContainer, {top: cardPos.y - 50, left: cardPos.x - 150}]}>
-          <MapCard title="Hall Building" content="hall building is there"/>
-        </View>
-
-      }
-      <Polygon
-        coordinates={buildings[1].location}
-        strokeWidth={2}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      /> */}
-      {/*
-      <Polygon
-        coordinates={BAnnexOverlay}
-        strokeWidth={2}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      />
-      <Polygon
-        coordinates={CIAnnexOverlay}
-        strokeWidth={2}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      />
-      <Polygon
-        coordinates={EVOverlay}
-        strokeWidth={2}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      />
-      <Polygon
-        coordinates={FaubourgOverlay}
-        strokeWidth={2}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      />
-      <Polygon
-        coordinates={CLAnnexOverlay}
-        strokeWidth={2}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      />
-      <Polygon
-        coordinates={JMSBOverlay}
-        strokeWidth={2}
-        strokeColor="#862532"
-        fillColor="rgba(134, 37, 50, 0.5)"
-      /> */}
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => handleSetStart()}
-        >
-          <Text style={styles.loginText}>Set Start</Text>
-          <NavigationIcon />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => handleGetDirections()}
-        >
-          <Text style={styles.loginText}>Get Directions</Text>
-        </TouchableOpacity>
-      </View>
+        {renderPolygons}
       </MapView>
+      {isSearch && <Animated.View
+        className='h-4/6'
+        style={[
+          styles.slideView,
+          {
+            transform: [{ translateY: slideAnim }], // Bind the animation to the translateY property
+          },
+        ]}
+      >
+        <MapResults searchText={searchText}/>
+      </Animated.View>}
+      {!isSearch && <MapSearch isSearch={isSearch} setIsSearch={setIsSearch} searchText={searchText} setSearchText={setSearchText} />
+      }      
+      {!isSearch && <View className="absolute h-full justify-end items-center ">
+        <View style={styles.shadow} className='mb-40 rounded-xl bg-white p-4 ml-8'>
+          <TouchableHighlight underlayColor={'white'} onPress={handleLoyola} className='mb-4'><LoyolaIcon/></TouchableHighlight>
+          <TouchableHighlight underlayColor={'white'} onPress={handleSGW}><SGWIcon/></TouchableHighlight>
+        </View>
+      </View>}
+      {!isSearch && <MapLocation setLocation={setLocation}/>}
+      {!isSearch && <View className='absolute w-full bottom-10'>
+        <View className='flex flex-row justify-center items-center'>
+          <TouchableHighlight style={styles.shadow} className='mr-4 rounded-xl p-4 bg-primary-red'>
+            <View className='flex flex-row justify-around items-center'>
+              <Text className='color-white mr-4 font-bold'>Set Start</Text>
+              <NavigationIcon/>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.shadow} className='rounded-xl p-4 bg-primary-red'>
+            <View className='flex flex-row justify-around items-center'>
+              <Text className='color-white mr-4 font-bold'>Get Directions</Text>
+              <DirectionsIcon/>
+            </View>
+          </TouchableHighlight>
+        </View>
+      </View>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  slideView: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: '#F0F0F0',
+    padding: 20,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  shadow: {
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+    textAlign: 'center'
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   map: {
     width: Dimensions.get('window').width,
