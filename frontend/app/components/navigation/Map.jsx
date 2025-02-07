@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, View, Text, StyleSheet, Dimensions, TouchableOpacity, TouchableHighlight} from 'react-native';
-import MapView, {Marker, PROVIDER_DEFAULT, Polygon, Callout} from 'react-native-maps';
+import MapView, {Marker, PROVIDER_DEFAULT, Polygon, Callout, PROVIDER_GOOGLE} from 'react-native-maps';
 import NavigationIcon from './Icons/NavigationIcon';
 import { buildings, SGWLocation, LoyolaLocation} from '../../screens/navigation/navigationConfig';
 import MapCard from './MapCard';
@@ -80,7 +80,7 @@ export default function Map() {
           longitudeDelta: 0.009,
         }}
         mapType='terrain'
-        provider={PROVIDER_DEFAULT}
+        provider={PROVIDER_GOOGLE}
       >
         {renderPolygons}
       </MapView>
