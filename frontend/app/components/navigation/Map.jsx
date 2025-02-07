@@ -19,7 +19,6 @@ export default function Map() {
   const [searchText, setSearchText] = useState('');
   const [isSearch, setIsSearch] = useState(false);
 
-  const slideAnim = useRef(new Animated.Value(300)).current;
   const ref = useRef(null);
 
   const handleSetStart = () => {
@@ -67,15 +66,7 @@ export default function Map() {
     )
   })
 
-  useEffect(() => {
-    if (!isSearch) return;
-    console.log("trying to animate")
-    Animated.timing(slideAnim, {
-      toValue: 0, 
-      duration: 500, 
-      useNativeDriver: true, 
-    }).start();
-  },[isSearch])
+  
 
   return (
     <View style={styles.container}>
@@ -93,17 +84,7 @@ export default function Map() {
       >
         {renderPolygons}
       </MapView>
-      {isSearch && <Animated.View
-        className='h-4/6'
-        style={[
-          styles.slideView,
-          {
-            transform: [{ translateY: slideAnim }], // Bind the animation to the translateY property
-          },
-        ]}
-      >
-        <MapResults searchText={searchText}/>
-      </Animated.View>}
+      {isSearch && <MapResults isSearch={isSearch} setIsSearch={setIsSearch} searchText={searchText}/>}
       {!isSearch && <MapSearch isSearch={isSearch} setIsSearch={setIsSearch} searchText={searchText} setSearchText={setSearchText} />
       }      
       {!isSearch && <View className="absolute h-full justify-end items-center ">
