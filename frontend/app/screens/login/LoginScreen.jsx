@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useCallback } from "react";
-import { View, Text, TouchableOpacity, Animated, Image } from "react-native";
+import React, { useEffect, useRef, useCallback, useState } from "react";
+import { View, Text, TouchableOpacity, Animated, Image, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useOAuth, useUser, useAuth } from "@clerk/clerk-expo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -14,6 +14,7 @@ function LoginScreenContent() {
   const navigation = useNavigation();
   const logoPosition = useRef(new Animated.Value(0)).current;
   const formOpacity = useRef(new Animated.Value(0)).current;
+  const [isCheckingSession, setIsCheckingSession] = useState(true); // State to manage session check loading
 
   // Warm-up WebBrowser for OAuth login
   useEffect(() => {
@@ -22,6 +23,34 @@ function LoginScreenContent() {
       WebBrowser.coolDownAsync();
     };
   }, []);
+
+  // Check for existing session or guest mode on mount
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      try {
+        const sessionId = await AsyncStorage.getItem("sessionId");
+        const guestMode = await AsyncStorage.getItem("guestMode");
+
+        if (sessionId) {
+          console.log("Existing session found, navigating to Home");
+          navigation.replace("Home");
+          return;
+        }
+
+        if (guestMode === "true") {
+          console.log("Guest mode detected, navigating to Home");
+          navigation.replace("Home");
+          return;
+        }
+      } catch (error) {
+        console.error("Error checking session:", error);
+      } finally {
+        setIsCheckingSession(false);
+      }
+    };
+
+    checkExistingSession();
+  }, [navigation]);
 
   // Logo animation effect
   useEffect(() => {
@@ -54,20 +83,20 @@ function LoginScreenContent() {
       console.log("Created Session ID:", createdSessionId);
 
       if (createdSessionId) {
+        await AsyncStorage.setItem("sessionId", createdSessionId);
         setActive({ session: createdSessionId });
+        navigation.replace("Home");
       }
     } catch (error) {
       console.error("Error signing in with OAuth:", error);
     }
-  }, []);
+  }, [navigation]);
 
   // Get user authentication state from Clerk
   const { user } = useUser();
   const { isSignedIn } = useAuth();
 
-  console.log("User Signed In:", isSignedIn);
-
-  // Store only name, email, and image in AsyncStorage
+  // Store only name, email, and image in AsyncStorage after login
   useEffect(() => {
     const storeUserData = async () => {
       if (isSignedIn && user) {
@@ -80,7 +109,7 @@ function LoginScreenContent() {
         try {
           await AsyncStorage.setItem("userData", JSON.stringify(userData));
           console.log("Stored User Data:\n", JSON.stringify(userData, null, 2));
-          navigation.navigate("Home");
+          navigation.replace("Home");
         } catch (error) {
           console.error("Error storing user data:", error);
         }
@@ -88,18 +117,35 @@ function LoginScreenContent() {
     };
 
     storeUserData();
-  }, [isSignedIn, user]);
+  }, [isSignedIn, user, navigation]);
 
   // Guest login function
   const handleGuestLogin = async () => {
     console.log("Guest Login Selected");
     try {
+      const guestData = {
+        guest: true,
+        fullName: "Guest User",
+        email: "guest@demo.com",
+        imageUrl: null,
+      };
+
       await AsyncStorage.setItem("guestMode", "true");
-      navigation.navigate("Home");
+      await AsyncStorage.setItem("userData", JSON.stringify(guestData));
+
+      navigation.replace("Home");
     } catch (error) {
       console.error("Error setting guest mode:", error);
     }
   };
+
+  if (isCheckingSession) {
+    return (
+      <View className="flex-1 bg-[#862532] justify-center items-center">
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-[#862532] justify-center items-center">
