@@ -844,5 +844,14 @@ export const polygons = [
         { latitude: 45.45767342207378, longitude: -73.6419260008635 },
       ],
     },
-  ];
-  
+];
+
+const createBuildingNames = () => {
+    const names = []
+    for (let i = 0; i < polygons.length; i++) {
+        names.push(polygons[i].name);
+    }
+    return names;
+}
+
+export const building_names = createBuildingNames()

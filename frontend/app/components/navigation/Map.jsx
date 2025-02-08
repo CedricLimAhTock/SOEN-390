@@ -14,7 +14,7 @@ import MapViewDirections from 'react-native-maps-directions';
 
 
 export default function Map() {
-
+  const [searchResult, setSearchResult] = useState([]);
   const [locationData, setLocationData] = useState(SGWLocation);
   const [location, setLocation] = useState(null)
   const [searchText, setSearchText] = useState('');
@@ -40,7 +40,6 @@ export default function Map() {
   }
 
   const renderPolygons = polygons.map((building, idx) => {
-    console.log("testing")
     return (
         <View key={idx}>
           <Marker
@@ -98,8 +97,8 @@ export default function Map() {
         />
         {renderPolygons}
       </MapView>
-      {isSearch && <MapResults isSearch={isSearch} setIsSearch={setIsSearch} searchText={searchText}/>}
-      {!isSearch && <MapSearch isSearch={isSearch} setIsSearch={setIsSearch} searchText={searchText} setSearchText={setSearchText} />
+      {isSearch && <MapResults searchResult={searchResult} setSearchResult={setSearchResult} isSearch={isSearch} setIsSearch={setIsSearch} searchText={searchText}/>}
+      {!isSearch && <MapSearch searchResult={searchResult} setSearchResult={setSearchResult} isSearch={isSearch} setIsSearch={setIsSearch} searchText={searchText} setSearchText={setSearchText} />
       }      
       {!isSearch && <View className="absolute h-full justify-end items-center ">
         <View style={styles.shadow} className='mb-40 rounded-xl bg-white p-4 ml-8'>

@@ -16,7 +16,7 @@ const MapResultItem = ({name, address,isHandicap, isBike, isMetro, isInfo}) => {
                 <View className='mr-4'>
                     <Text className='font-bold'>{name}</Text>
                 </View>
-                <View className='flex flex-row justify-around'>
+                <View className='flex flex-row items-center justify-around'>
                     <WheelChairIcon/>
                     <BikeIcon/>
                     <MetroIcon/>
@@ -24,10 +24,9 @@ const MapResultItem = ({name, address,isHandicap, isBike, isMetro, isInfo}) => {
                 </View>
 
             </View>
-            <View className='mb-4'>
+            <View className='mb-4 flex flex-row'>
                 <NavigationIcon/>
                 <Text className='color-slate-400 text-xs'>{address}</Text>
-
             </View>
             <View className='flex flex-row justify-around items-center'>
                 <TouchableHighlight style={styles.shadow} className='mr-4 rounded-xl p-4 bg-primary-red'>

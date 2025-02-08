@@ -3,25 +3,7 @@ import { View, Animated, TextInput, StyleSheet, Text, TouchableOpacity, Dimensio
 import SearchIcon from './Icons/SearchIcon';
 import MapResultItem from './MapResults/MapResultItem'
 
-const MapResults = ({ searchText, isSearch, setIsSearch }) => {
-    const [results, setResults] = useState([
-        {
-            name: 'Henry F.Hall Building',
-            address: '1550 De Maisonneuve West, Montreal, QC H3G 1MB',
-            isHandicap: true,
-            isBike: true,
-            isMetro: true,
-            isInfo: true
-        },
-        {
-            name: 'Henry F.Hall Building',
-            address: '1550 De Maisonneuve West, Montreal, QC H3G 1MB',
-            isHandicap: true,
-            isBike: true,
-            isMetro: true,
-            isInfo: true
-        }
-    ]);
+const MapResults = ({ searchResult, setSearchResult, searchText, isSearch, setIsSearch }) => {
     const [selected, setSelected] = useState('');
 
     const screenHeight = Dimensions.get('window').height;
@@ -33,7 +15,7 @@ const MapResults = ({ searchText, isSearch, setIsSearch }) => {
         // Handle search submit logic here
     };
 
-    const renderResults = results.map((building, idx) => {
+    const renderResults = searchResult.map((building, idx) => {
         return (
             <MapResultItem key={idx} name={building.name} address={building.address} isHandicap={building.isHandicap} isBike={building.isBike} isMetro={building.isMetro} isInfo={building.isInfo} />
         );
