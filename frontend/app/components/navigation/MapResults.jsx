@@ -99,7 +99,7 @@ const MapResults = ({ searchText, isSearch, setIsSearch }) => {
                             <SearchIcon/>
                         </View>
                     </View>
-                    <View className='w-full mb-2 flex flex-row justify-center items-center'>
+                    <View className='w-full mb-2 flex flex-row justify-center  items-center'>
                         <TouchableOpacity onPress={() => setSelected('loyola')} className='m-2'>
                             <Text className={'color-slate-400' + (selected === 'loyola' ? ' underline' : '')}>Loyola</Text>
                         </TouchableOpacity>

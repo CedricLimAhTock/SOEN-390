@@ -4,7 +4,7 @@ import Map from '../../components/navigation/Map';
 
 export default function NavigationScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View className='h-full opacity-100' style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Map/>
     </View>
   );
