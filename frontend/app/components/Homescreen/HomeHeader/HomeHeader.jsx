@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, Button, Pressable } from "react-native";
-import Concordia50 from "../Concordia50/Concordia50";
+import Concordia50 from "./Icons/Concordia50/Concordia50";
 
-export default function HomeHeader() {
+export default function HomeHeader(props) {
   return (
     <View
       style={{
@@ -22,7 +22,7 @@ export default function HomeHeader() {
     >
       <View className="flex pl-6 pt-5">
         <Text className="text-white font-bold text-3xl">Welcome Back</Text>
-        <Text className="text-white font-bold text-2xl">Joe Smith</Text>
+        <Text className="text-white font-bold text-2xl">{props.name}</Text>
       </View>
       <View className="pt-10">
         <Concordia50 />

@@ -20,10 +20,9 @@ export default function App() {
     >
       <ClerkLoaded>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
             <Stack.Screen
               name="Loading"
-              options={{ headerShown: false }}
               component={LoadingScreen}
             />
             <Stack.Screen name="Home" component={HomeScreen} />
