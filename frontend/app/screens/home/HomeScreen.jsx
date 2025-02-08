@@ -1,36 +1,28 @@
-import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { useAuth } from '@clerk/clerk-expo';
-
+import React from "react";
+import { View, Text, Button } from "react-native";
+import BottomNavBar from "../../components/BottomNavBar/BottomNavBar";
+import HomeHeader from "../../components/HomeHeader/HomeHeader";
+import HomeCard from "../../components/HomeCard/HomeCard";
+import MapPic from "../../../assets/MapScreenshot.png";
+import CalendarPic from "../../../assets/CalendarScreenshot.png";
 export default function HomeScreen({ navigation }) {
-  const { signOut, getToken } = useAuth();
-
-  const handleLogout = async () => {
-    try {
-      const token = await getToken();
-      console.log("User Token Data:", token);
-      await signOut();
-      navigation.navigate('Login');
-    } catch (error) {
-      console.error("Logout Error:", error);
-    }
-  };
-
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Calendar"
-        onPress={() => navigation.navigate('Calendar')}
-      />
-      <Button
-        title="Go to Navigation"
-        onPress={() => navigation.navigate('Navigation')}
-      />
-      <Button
-        title="Logout"
-        onPress={handleLogout}
-      />
+    <View style={{ flex: 1, justifyContent: "center" }}>
+      <HomeHeader />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: 20,
+          paddingBottom: 160,
+        }}
+      >
+        <HomeCard image={MapPic} text="Find your next class" />
+        <HomeCard image={CalendarPic} text="Access your calendar" />
+      </View>
+      <BottomNavBar />
     </View>
   );
 }
