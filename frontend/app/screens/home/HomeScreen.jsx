@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button } from "react-native";
 import { useAuth } from "@clerk/clerk-expo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import React from "react";
 import { View, Text, Button } from "react-native";
 import BottomNavBar from "../../components/BottomNavBar/BottomNavBar";
 import HomeHeader from "../../components/Homescreen/HomeHeader/HomeHeader";
-import HomeCard from "../../components/Homescreen/HomeCard/HomeCard";
+import HomeCard from "../../components/Homescreen/HomeCard";
 import MapPic from "../../../assets/MapScreenshot.png";
 import CalendarPic from "../../../assets/CalendarScreenshot.png";
 export default function HomeScreen({ navigation }) {
@@ -57,7 +55,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1, justifyContent: "center" }}>
-      <HomeHeader />
+      <HomeHeader name={username} />
       <View
         style={{
           flex: 1,
