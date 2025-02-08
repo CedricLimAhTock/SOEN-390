@@ -1,13 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Animated, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import * as Google from 'expo-auth-session/providers/google';
-import * as WebBrowser from 'expo-web-browser';
+import { useSSO } from '@clerk/clerk-expo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ConcordiaLogo from '../../components/ConcordiaLogo';
 
-WebBrowser.maybeCompleteAuthSession();
-
 export default function LoginScreen() {
+  return <LoginScreenContent />;
+}
+
+function LoginScreenContent() {
   const navigation = useNavigation();
   const logoPosition = useRef(new Animated.Value(0)).current;
   const formOpacity = useRef(new Animated.Value(0)).current;
@@ -16,7 +18,7 @@ export default function LoginScreen() {
     Animated.sequence([
       Animated.timing(logoPosition, {
         toValue: -200,
-        duration: 1000,
+        duration: 1500,
         useNativeDriver: true,
       }),
       Animated.timing(formOpacity, {
@@ -27,17 +29,47 @@ export default function LoginScreen() {
     ]).start();
   }, []);
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    clientId: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
-  });
+  const { startSSOFlow } = useSSO();
+  const fetchSessionData = async (sessionId) => {
+    try {
+      console.log("Fetching session data for:", sessionId);
+      const clerkSecretKey = "sk_test_9ybQ2VKKaRd31fB3qvxk76CtwQGWCTQ8Cm5b3Rmw6X"; // Replace with actual key
+
+      const response = await fetch(`https://api.clerk.dev/v1/sessions/${sessionId}`, {
+        headers: {
+          Authorization: `Bearer ${clerkSecretKey}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error fetching session data: ${errorText}`);
+      }
+
+      const sessionData = await response.json();
+      return sessionData;
+    } catch (error) {
+      console.error("Error fetching session data:", error);
+      return null;
+    }
+  }
 
   const handleGoogleSignIn = async () => {
-    promptAsync();
+    try {
+      const result = await startSSOFlow({ strategy: 'oauth_google' });
+      console.log("Google Sign-In Result:", result);
+      const sessionData = await fetchSessionData(result.createdSessionId);
+      console.log("Session Data:", sessionData);
+        navigation.navigate('Home');
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+    }
   };
 
-
-  const handleGuestLogin = () => {
-    console.log("Guest Login Clicked");
+  const handleGuestLogin = async () => {
+    console.log("👤 Guest Login Selected");
+    await AsyncStorage.setItem('guestMode', 'true');
     navigation.navigate('Home');
   };
 
