@@ -35,18 +35,7 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      [
-        "react-native-auth0",
-        {
-          "domain": "dev-yb2ci31ltq1jn6k3.ca.auth0.com"
-        }
-      ]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "f3ea515d-7633-4488-99ac-53c90146dc87"
-      }
-    },
-    "owner": "ricobadir"
+      "expo-secure-store"
+    ]
   }
 }
