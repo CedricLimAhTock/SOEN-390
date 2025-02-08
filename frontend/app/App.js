@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import {useAuth0, Auth0Provider} from 'react-native-auth0';
 import Constants from "expo-constants";
 
 import "../global.css"
@@ -16,7 +15,6 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <Auth0Provider domain={process.env.EXPO_PUBLIC_AUTH0_DOMAIN} clientId={process.env.EXPO_PUBLIC_AUTH0_CLIENT_ID} >
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name ="Login" component={LoginScreen}/>
@@ -26,7 +24,6 @@ export default function App() {
         {/* <Stack.Screen name="Navigation" component={NavigationScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
-    </Auth0Provider>
   );
 }
 

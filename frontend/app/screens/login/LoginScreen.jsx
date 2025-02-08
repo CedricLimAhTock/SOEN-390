@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Button, Text } from 'react-native';
-import { useAuth0 } from 'react-native-auth0';
 
 export default function LoginScreen({ navigation }) {
-  const { user, authorize, clearSession, error } = useAuth0();
 
   // Log user info when it changes
   React.useEffect(() => {
@@ -13,25 +11,25 @@ export default function LoginScreen({ navigation }) {
   }, [user]);
 
   const LoginButton = () => {
-    const onPress = async () => {
-      try {
-        await authorize();
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    return <Button onPress={onPress} title="Log in" />;
+    // const onPress = async () => {
+    //   try {
+    //     await authorize();
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // };
+    // return <Button onPress={onPress} title="Log in" />;
   };
 
   const LogoutButton = () => {
-    const onPress = async () => {
-      try {
-        await clearSession();
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    return <Button onPress={onPress} title="Log out" />;
+    // const onPress = async () => {
+    //   try {
+    //     await clearSession();
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // };
+    // return <Button onPress={onPress} title="Log out" />;
   };
 
   const Profile = () => (
