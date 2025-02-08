@@ -38,14 +38,14 @@ export default function CalendarScreen() {
       />
 
       {/* Button with Icon */}
-      <View style={{ marginLeft: "5%", marginRight: "5%", position: "absolute", bottom: "10%" }}>
+      <View style={{ position: "absolute", bottom: "10%", left: 0, right: 0 }}>
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => alert("Directions are coming soon!")}
         >
           <Text style={styles.buttonText}>Get Directions to My Next Class</Text>
           {/* Add the icon after the text */}
-          <CalendarDirectionsIcon width={20} height={20} />
+          <CalendarDirectionsIcon width={25} height={25} />
         </TouchableOpacity>
       </View>
 
@@ -60,17 +60,14 @@ export default function CalendarScreen() {
 // Button styling
 const styles = StyleSheet.create({
   buttonContainer: {
-    marginLeft: '5%',
-    marginRight: '5%',
-    marginTop: '1%',
-    marginBottom: '1%',
+    alignSelf: "center", // This will center the button horizontally
     flexDirection: "row", // Align icon and text on the same line
     alignItems: "center", // Ensure vertical alignment of text and icon
     justifyContent: "space-between",
     backgroundColor: "#862532",
     paddingVertical: 20,
     paddingHorizontal: 20,
-    borderRadius: 10,
+    borderRadius: 20,
   },
   buttonText: {
     color: "#FFFFFF",
