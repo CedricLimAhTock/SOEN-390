@@ -12,6 +12,7 @@ import LoadingScreen from "./screens/login/LoadingScreen";
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
   return (
     <ClerkProvider
