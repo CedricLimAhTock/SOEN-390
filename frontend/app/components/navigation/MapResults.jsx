@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
-import { View, Animated, TextInput, StyleSheet, Text, TouchableOpacity, Dimensions, PanResponder } from "react-native";
+import { View, Animated, TextInput, StyleSheet, Text, TouchableOpacity, Dimensions, PanResponder, ScrollView } from "react-native";
 import SearchIcon from './Icons/SearchIcon';
 import MapResultItem from './MapResults/MapResultItem'
 
-const MapResults = ({ searchResult, setSearchResult, searchText, isSearch, setIsSearch }) => {
+const MapResults = ({ start, setStart, end, setEnd, searchResult, setSearchResult, searchText, setSearchText, isSearch, setIsSearch }) => {
     const [selected, setSelected] = useState('');
 
     const screenHeight = Dimensions.get('window').height;
@@ -17,7 +17,7 @@ const MapResults = ({ searchResult, setSearchResult, searchText, isSearch, setIs
 
     const renderResults = searchResult.map((building, idx) => {
         return (
-            <MapResultItem key={idx} name={building.name} address={building.address} isHandicap={building.isHandicap} isBike={building.isBike} isMetro={building.isMetro} isInfo={building.isInfo} />
+            <MapResultItem building={building} start={start} setStart={setStart} end={end} setEnd={setEnd} key={idx} name={building.name} address={building.address} isHandicap={building.isHandicap} isBike={building.isBike} isMetro={building.isMetro} isInfo={building.isInfo} />
         );
     });
 
@@ -99,9 +99,10 @@ const MapResults = ({ searchResult, setSearchResult, searchText, isSearch, setIs
                         </TouchableOpacity>
                     </View>
 
-                    <View className='flex flex-col justify-center items-center'>
+                    {searchResult.length !== 0 && <ScrollView>
                         {renderResults}
-                    </View>
+                    </ScrollView>}
+                    {searchResult.length === 0 && <Text>No results found.</Text>}
                 </View>
             </Animated.View>
         </View>

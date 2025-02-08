@@ -11,16 +11,21 @@ import SGWIcon from './Icons/SGWIcon';
 import LoyolaIcon from './Icons/LoyolaIcon';
 import MapResults from './MapResults';
 import MapLocation from './MapLocation';
+import MapTraceroute from './MapTraceroute';
+import * as Location from 'expo-location';
 
 export default function Map() {
   const [searchResult, setSearchResult] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
   const [locationData, setLocationData] = useState(SGWLocation);
-  // Whether the user is in "search" mode or not
   const [isSearch, setIsSearch] = useState(false);
-  // Which building (if any) has been tapped/clicked
   const [selectedBuilding, setSelectedBuilding] = useState(null);
-
+  const [start, setStart] = useState();
+  const [end, setEnd] = useState();
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [searchText, setSearchText] = useState('');
+
   const ref = useRef(null);
 
   const handleSetStart = () => {
@@ -45,12 +50,35 @@ export default function Map() {
     setIsSearch(false);
     // Set the building that was selected
     setSelectedBuilding(building);
+    setIsSelected(true);
   };
+
+  useEffect(() => {
+    async function getCurrentLocation() {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      setStart(location.coords)
+    }
+    getCurrentLocation();
+  }, []);
+
+  console.log("loc");
+  console.log(JSON.stringify(location));
 
   const renderPolygons = polygons.map((building, idx) => {
     return (
       <View key={idx}>
-        <Marker
+        {
+          (!start || (start?.latitude !== building.point?.latitude && start?.longitude !== building.point?.longitude)) &&
+          (!end || (end?.latitude !== building.point?.latitude && end?.longitude !== building.point?.longitude)) &&
+          <Marker
           coordinate={building.point}
           // You can decide whether you want onPress on the Marker or the Callout
           onPress={() => handleMarkerPress(building)}
@@ -65,7 +93,7 @@ export default function Map() {
               isInfo={true}
             />
           </Callout>
-        </Marker>
+        </Marker>}
         <Polygon
           coordinates={building.boundaries}
           strokeWidth={2}
@@ -80,6 +108,14 @@ export default function Map() {
     console.log("Directions are ready!");
   };
 
+  const handleMapPress = () => {
+  }
+
+  console.log("end")
+  console.log(end)
+  console.log("start")
+  console.log(start)
+
   return (
     <View style={styles.container}>
       <MapView
@@ -93,28 +129,35 @@ export default function Map() {
         }}
         mapType='terrain'
         provider={PROVIDER_DEFAULT}
+        onPress={handleMapPress}
         
-      >
-        {/* Example directions */}
-        <MapViewDirections
-          origin={polygons[0].point}
-          destination={polygons[1].point}
+      > 
+        {start != null && end != null ? (<Marker coordinate={end}/>) : null}
+        {start != null && end != null ? (<Marker coordinate={start}/>) : null}
+        {start != null && end != null ? (<MapViewDirections
+          origin={start}
+          destination={end}
           apikey={process.env.EXPO_PUBLIC_GOOGLE_API_KEY}
-          strokeColor="#6644ff"
-          strokeWidth={4}
+          strokeColor="#862532"
+          strokeWidth={6}
           onReady={traceRouteOnReady}
-        />
+        />): null}
         {/* Render your polygons/markers */}
         {renderPolygons}
       </MapView>
-
+      {/* {end && start && <MapTraceroute/>} */}
       {/* If isSearch is true, show MapResults. Otherwise, maybe show the search bar.
           Also ensure that if a building is selected, we hide these. */}
-      {isSearch && <MapResults 
+      {isSearch && <MapResults
+        start={start}
+        end={end}
+        setStart={setStart}
+        setEnd={setEnd}
+        setSearchText={setSearchText}
         searchResult={searchResult} setSearchResult={setSearchResult}
         isSearch={isSearch} setIsSearch={setIsSearch} searchText={searchText} />}
       {/* Show the search bar only if we are not searching results AND no building is selected */}
-      {!isSearch && !selectedBuilding && (
+      {!isSearch && (
         <MapSearch
           searchResult={searchResult} 
           setSearchResult={setSearchResult}
@@ -126,7 +169,7 @@ export default function Map() {
       )}
 
       {/* Example campus buttons - if you want them to appear even if a building is selected, remove selectedBuilding check */}
-      {!isSearch && !selectedBuilding && (
+      {!isSearch && (
         <View className="absolute h-full justify-end items-center">
           <View style={styles.shadow} className='mb-40 rounded-xl bg-white p-4 ml-8'>
             <TouchableHighlight underlayColor={'white'} onPress={handleLoyola} className='mb-4'>
@@ -143,7 +186,7 @@ export default function Map() {
       {!isSearch && <MapLocation setLocation={() => {}} />}
 
       {/* Show the "Set Start" / "Get Directions" buttons ONLY if a building is selected */}
-      {selectedBuilding && (
+      {selectedBuilding && !isSearch && (
         <View className='absolute w-full bottom-10'>
           <View className='flex flex-row justify-center items-center'>
             <TouchableHighlight

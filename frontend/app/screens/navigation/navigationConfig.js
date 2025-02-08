@@ -18,6 +18,7 @@ export const polygons = [
       point: {
         latitude:45.49530941266274, longitude:-73.57894088705565
       },
+      isSGW: true,
       boundaries: [
         { latitude: 45.49551700939489, longitude: -73.57919959372754 },
         { latitude: 45.4954397197586, longitude: -73.57896102832657 },
@@ -35,6 +36,7 @@ export const polygons = [
       point: {
         latitude:45.49781725012627, longitude:-73.57950979221253 
       },
+      isSGW: true,
       boundaries: [
         { latitude: 45.49792095946769, longitude: -73.57946059720679 },
         { latitude: 45.497883828222086, longitude: -73.57938683641203 },
@@ -44,6 +46,10 @@ export const polygons = [
     },
     {
       name: "CI Annex",
+      point: {
+        latitude:45.49747535175269, longitude:-73.57989583757855
+      },
+      isSGW: true,
       boundaries: [
         { latitude: 45.497584772601584, longitude: -73.57983829805465 },
         { latitude: 45.49754529100982, longitude: -73.57976051398938 },
@@ -53,6 +59,10 @@ export const polygons = [
     },
     {
       name: "CL Annex",
+      point: {
+        latitude: 45.49422725158271, longitude: -73.57929532647677
+      },
+      isSGW: true,
       boundaries: [
         { latitude: 45.49447132432611, longitude: -73.5792829162498 },
         { latitude: 45.494260599618514, longitude: -73.57893678577295 },
@@ -63,7 +73,11 @@ export const polygons = [
       ],
     },
     {
-      name: "D Annex",
+      name: "B Annex",
+      point: {
+        latitude:45.49781768055666, longitude:-73.57939050124519
+      },
+      isSGW: true,
       boundaries: [
         { latitude: 45.49788370958742, longitude: -73.57938523006008 },
         { latitude: 45.49784751830836, longitude: -73.57931348089716 },
@@ -253,6 +267,9 @@ export const polygons = [
     },
     {
       name: "Hall Building",
+      point: {
+        latitude:45.4972978299552, longitude:-73.57895294688963
+      },
       boundaries: [
         { latitude: 45.49770855552633, longitude: -73.57903354341569 },
         { latitude: 45.497373319897925, longitude: -73.57833984117559 },
@@ -417,6 +434,10 @@ export const polygons = [
     },
     {
       name: "Visual Arts Building",
+      point: {
+        latitude:45.4956849583822, longitude:-73.5739600415101
+      },
+      isSGW: true,
       boundaries: [
         { latitude: 45.49618526149293, longitude: -73.57379772657498 },
         { latitude: 45.49606642975251, longitude: -73.57356251091662 },
@@ -853,5 +874,7 @@ const createBuildingNames = () => {
     }
     return names;
 }
+
+
 
 export const building_names = createBuildingNames()
