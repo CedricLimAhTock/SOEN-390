@@ -6,6 +6,7 @@ import InformationIcon from '../Icons/InformationIcon';
 import NavigationIcon from '../Icons/NavigationIcon';
 import DirectionsIcon from '../Icons/DirectionsIcon';
 import { useRef } from 'react';
+import SmallNavigationIcon from '../Icons/SmallNavigationIcon';
 
 const MapResultItem = ({building, start, setStart, end, setEnd,  name, address,isHandicap, isBike, isMetro, isInfo}) => {
 
@@ -28,7 +29,7 @@ const MapResultItem = ({building, start, setStart, end, setEnd,  name, address,i
 
             </View>
             <View className='mb-4 flex flex-row'>
-                <NavigationIcon/>
+                <SmallNavigationIcon/>
                 <Text className='color-slate-400 text-xs'>{address}</Text>
             </View>
             <View className='flex flex-row justify-around items-center'>

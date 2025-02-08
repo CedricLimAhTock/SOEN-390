@@ -145,7 +145,7 @@ export default function Map() {
         {/* Render your polygons/markers */}
         {renderPolygons}
       </MapView>
-      {/* {end && start && <MapTraceroute/>} */}
+      {start != null && end != null ? (<MapTraceroute/>) : null}
       {/* If isSearch is true, show MapResults. Otherwise, maybe show the search bar.
           Also ensure that if a building is selected, we hide these. */}
       {isSearch && <MapResults
