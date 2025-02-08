@@ -32,10 +32,6 @@ const MapTraceroute = () => {
     }).start();
   };
 
-  const handleCancelTrip = () => {
-
-  }
-
   useEffect(() => {
     slideIn();
   })
@@ -43,7 +39,7 @@ const MapTraceroute = () => {
       <Animated.View className='rounded-xl p-3' style={[styles.slidingView, styles.shadow,{ top: slideAnim }]}>
         <View className='flex h-full w-full flex-col p-2'>
           <View className='mt-2 h-5/6 flex flex-row justify-center items-center'>
-            <TouchableOpacity className='mr-4 mb-8' onPress={handleCancelTrip}>
+            <TouchableOpacity className='mr-4 mb-8' onPress={slideOut}>
               <ArrowIcon/>
             </TouchableOpacity>
             <View className='flex flex-col justify-center items-center mr-4'>

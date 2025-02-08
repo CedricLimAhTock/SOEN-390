@@ -13,6 +13,7 @@ import MapResults from './MapResults';
 import MapLocation from './MapLocation';
 import MapTraceroute from './MapTraceroute';
 import * as Location from 'expo-location';
+import MapTracerouteBottom from './MapTracerouteBottom';
 
 export default function Map() {
   const [searchResult, setSearchResult] = useState([]);
@@ -146,9 +147,10 @@ export default function Map() {
         {renderPolygons}
       </MapView>
       {start != null && end != null ? (<MapTraceroute/>) : null}
+      {start != null && end != null ? (<MapTracerouteBottom/>) : null}
       {/* If isSearch is true, show MapResults. Otherwise, maybe show the search bar.
           Also ensure that if a building is selected, we hide these. */}
-      {isSearch && <MapResults
+      {isSearch && end == null && <MapResults
         start={start}
         end={end}
         setStart={setStart}
