@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Button, Pressable } from "react-native";
-import Concordia50 from "../Concordia50/Concordia50";
+import Concordia50 from "./Icons/Concordia50/Concordia50";
 
 export default function HomeHeader() {
   return (

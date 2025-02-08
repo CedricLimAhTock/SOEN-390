@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, Button } from "react-native";
 import BottomNavBar from "../../components/BottomNavBar/BottomNavBar";
-import HomeHeader from "../../components/HomeHeader/HomeHeader";
-import HomeCard from "../../components/HomeCard/HomeCard";
+import HomeHeader from "../../components/Homescreen/HomeHeader/HomeHeader";
+import HomeCard from "../../components/Homescreen/HomeCard/HomeCard";
 import MapPic from "../../../assets/MapScreenshot.png";
 import CalendarPic from "../../../assets/CalendarScreenshot.png";
 export default function HomeScreen({ navigation }) {
