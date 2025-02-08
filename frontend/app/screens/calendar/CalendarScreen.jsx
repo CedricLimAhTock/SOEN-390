@@ -9,12 +9,7 @@ export default function CalendarScreen() {
   const [events, setEvents] = useState([]);
 
   // Google API issues no need for current sprint
-  // useEffect(() => {
-  //   fetch('http://localhost:3000/api/calendar')
-  //     .then(response => response.json())
-  //     .then(data => setEvents(data))
-  //     .catch(err => console.error('Error fetching events:', err));
-  // }, []);
+  // Here we would put the go fetch calendar with google api
 
   return (
     <View className="flex-1 bg-primary-bg">
@@ -25,6 +20,9 @@ export default function CalendarScreen() {
       </View>
 
       {/* Calendar */}
+      {/*
+          Here we use the react-native-calendars to display calendar and style with tailwing
+          */}
       <Calendar
         current={'2025-01-01'}
         minDate={'2025-01-01'}
@@ -39,23 +37,12 @@ export default function CalendarScreen() {
         }}
       />
 
-      {/* Display Events */}
-      {/* Commented out since we are not fetching nothing from api */}
-      {/* <View className="px-4 mt-4">
-        <Text className="text-primary-text font-semibold">Upcoming Events:</Text>
-        {events.map((event, index) => (
-          <View key={index} className="flex-row items-center justify-between mt-2 p-2 bg-secondary-bg rounded-lg shadow-sm">
-            <Text className="text-primary-text">{event.summary}</Text>
-            <Ionicons name="calendar" size={20} color="#E6863C" />
-          </View>
-        ))}
-      </View> */}
 
       {/* Button */}
       <View className="absolute bottom-4 left-0 right-0 mx-4">
         <Button
-          title="Get Directions to my Next Class"
-          onPress={() => navigation.navigate('Home')}
+          title="Get Directions to My Next Class"
+          onPress={() => alert("Directions are coming soon!")}
           color="#862532"
         />
       </View>
