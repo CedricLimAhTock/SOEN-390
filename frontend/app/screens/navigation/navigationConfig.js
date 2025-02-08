@@ -19,6 +19,8 @@ export const polygons = [
         latitude:45.49530941266274, longitude:-73.57894088705565
       },
       isSGW: true,
+      departments: ["Contemporary Dance", "Music","Theatre"],
+      address: "1550 De Maisonneuve W",
       boundaries: [
         { latitude: 45.49551700939489, longitude: -73.57919959372754 },
         { latitude: 45.4954397197586, longitude: -73.57896102832657 },
@@ -37,6 +39,8 @@ export const polygons = [
         latitude:45.49781725012627, longitude:-73.57950979221253 
       },
       isSGW: true,
+      departments: ["Engineering and Computer Science Association"],
+      address: "2160 Bishop",
       boundaries: [
         { latitude: 45.49792095946769, longitude: -73.57946059720679 },
         { latitude: 45.497883828222086, longitude: -73.57938683641203 },
@@ -46,6 +50,8 @@ export const polygons = [
     },
     {
       name: "CI Annex",
+      address: "2149 Mackay St",
+      departments: ["School of Community & Public Affairs"],
       point: {
         latitude:45.49747535175269, longitude:-73.57989583757855
       },
@@ -59,6 +65,7 @@ export const polygons = [
     },
     {
       name: "CL Annex",
+      address: "1665 Saint-Catherine St W",
       point: {
         latitude: 45.49422725158271, longitude: -73.57929532647677
       },
@@ -73,24 +80,12 @@ export const polygons = [
       ],
     },
     {
-      name: "B Annex",
+      name: "EN Annex",
+      address: "2070 Mackay",
       point: {
-        latitude:45.49781768055666, longitude:-73.57939050124519
+        latitude:45.49692834804806, longitude:-73.5797433750953
       },
       isSGW: true,
-      boundaries: [
-        { latitude: 45.49788370958742, longitude: -73.57938523006008 },
-        { latitude: 45.49784751830836, longitude: -73.57931348089716 },
-        { latitude: 45.497754455406586, longitude: -73.5794026647448 },
-        { latitude: 45.49777184599827, longitude: -73.57943753345103 },
-        { latitude: 45.49769617357993, longitude: -73.5795092826006 },
-        { latitude: 45.4976858332421, longitude: -73.5794878249485 },
-        { latitude: 45.49759794037834, longitude: -73.57957164382724 },
-        { latitude: 45.49762661126204, longitude: -73.57963400509946 },
-      ],
-    },
-    {
-      name: "EN Annex",
       boundaries: [
         { latitude: 45.49698630180552, longitude: -73.5797415843998 },
         { latitude: 45.496949169963464, longitude: -73.57966581200046 },
@@ -102,6 +97,12 @@ export const polygons = [
     },
     {
       name: "ER Building",
+      boundaries: ["Computer Science and Software Engineering"],
+      address: "2155 Guy St, Montreal",
+      point: {
+        latitude: 45.49630521099936, longitude:-73.58019820078486
+      },
+      isSGW: true,
       boundaries: [
         { latitude: 45.49642205927201, longitude: -73.5803519706359 },
         { latitude: 45.49629705006199, longitude: -73.57985133782692 },
@@ -116,6 +117,11 @@ export const polygons = [
     },
     {
       name: "EV Building",
+      address: "1515 Saint-Catherine St W",
+      departments: ["Art Education", "Art History","Contemporary Dance"],
+      point: {
+        latitude:45.4954715874386, longitude:-73.57799996419087
+      },
       boundaries: [
         { latitude: 45.495864910655214, longitude: -73.5784949088164 },
         { latitude: 45.49544740149519, longitude: -73.57761297797327 },
@@ -267,6 +273,9 @@ export const polygons = [
     },
     {
       name: "Hall Building",
+      address:"1550 De Maisonneuve West",
+      departments: ["Geography, Planning & Environment","School of Irish Studies"],
+      isSGW: true,
       point: {
         latitude:45.4972978299552, longitude:-73.57895294688963
       },

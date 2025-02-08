@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { View, Animated, TextInput, StyleSheet, Text, TouchableOpacity, Dimensions, PanResponder, ScrollView } from "react-native";
 import SearchIcon from './Icons/SearchIcon';
-import MapResultItem from './MapResults/MapResultItem'
+import MapResultItem from './MapResults/MapResultItem';
+import { polygons } from '../../screens/navigation/navigationConfig';
 
-const MapResults = ({ start, setStart, end, setEnd, searchResult, setSearchResult, searchText, setSearchText, isSearch, setIsSearch }) => {
+const MapResults = ({ setCloseTraceroute,setStartPosition,setDestinationPosition, start, setStart, end, setEnd, searchResult, setSearchResult, searchText, setSearchText, isSearch, setIsSearch }) => {
     const [selected, setSelected] = useState('');
 
     const screenHeight = Dimensions.get('window').height;
@@ -12,12 +13,15 @@ const MapResults = ({ start, setStart, end, setEnd, searchResult, setSearchResul
     const slideAnim = useRef(new Animated.Value(screenHeight * 0.75)).current;
 
     const handleSubmit = () => {
-        // Handle search submit logic here
+        let filterData = polygons.filter((item) => {
+            return item.name.toLowerCase().includes(searchText.toLowerCase());
+        })
+        setSearchResult(filterData);
     };
 
     const renderResults = searchResult.map((building, idx) => {
         return (
-            <MapResultItem building={building} start={start} setStart={setStart} end={end} setEnd={setEnd} key={idx} name={building.name} address={building.address} isHandicap={building.isHandicap} isBike={building.isBike} isMetro={building.isMetro} isInfo={building.isInfo} />
+            <MapResultItem setCloseTraceroute={setCloseTraceroute}  setStartPosition={setStartPosition} setDestinationPosition={setDestinationPosition} building={building} start={start} setStart={setStart} end={end} setEnd={setEnd} key={idx} name={building.name} address={building.address} isHandicap={building.isHandicap} isBike={building.isBike} isMetro={building.isMetro} isInfo={building.isInfo} />
         );
     });
 
@@ -77,7 +81,7 @@ const MapResults = ({ start, setStart, end, setEnd, searchResult, setSearchResul
                     </View>
                     <View className='p-4 w-full justify-center mb-2 items-center'>
                         <View style={styles.shadow} className='flex flex-row justify-between w-80 p-4 bg-white rounded-lg'> 
-                            <TextInput onSubmitEditing={handleSubmit} value={searchText} onChange={(text) => setSearchText(text)} placeholder="Search the campus" className='color-slate-400'/>
+                            <TextInput onSubmitEditing={handleSubmit} value={searchText} onChangeText={(text) => setSearchText(text)} placeholder="Search the campus" className='color-slate-400'/>
                             <SearchIcon/>
                         </View>
                     </View>

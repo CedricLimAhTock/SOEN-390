@@ -10,7 +10,7 @@ import SmallNavigationIcon from './Icons/SmallNavigationIcon';
 import SwapIcon from './Icons/SwapIcon';
 import ArrowIcon from './Icons/ArrowIcon';
 
-const MapTraceroute = () => {
+const MapTraceroute = ({end, start, setEnd, setStart, startPosition,destinationPosition,setStartPosition, setDestinationPosition,closeTraceroute, setCloseTraceroute, setIsSearch}) => {
 
   const [selected, setSelected] = useState('');
 
@@ -32,14 +32,32 @@ const MapTraceroute = () => {
     }).start();
   };
 
+  const handleCloseTraceroute = () => {
+    slideOut();
+    setCloseTraceroute(true);
+    setIsSearch(false);
+    setEnd(null);
+  }
+
+  const handleStartSearch = () => {
+
+  }
+
+  const handleEndSearch = () => {
+
+  }
+
   useEffect(() => {
-    slideIn();
+    if (!closeTraceroute) {
+      slideIn();
+    }
   })
+
   return (
       <Animated.View className='rounded-xl p-3' style={[styles.slidingView, styles.shadow,{ top: slideAnim }]}>
         <View className='flex h-full w-full flex-col p-2'>
           <View className='mt-2 h-5/6 flex flex-row justify-center items-center'>
-            <TouchableOpacity className='mr-4 mb-8' onPress={slideOut}>
+            <TouchableOpacity className='mr-4 mb-8' onPress={handleCloseTraceroute}>
               <ArrowIcon/>
             </TouchableOpacity>
             <View className='flex flex-col justify-center items-center mr-4'>
@@ -48,19 +66,19 @@ const MapTraceroute = () => {
               <SmallNavigationIcon/>
             </View>
             <View className='w-2/3'>
-              <TextInput className='bg-white p-4 mb-4 border-2 rounded-xl font-bold color-black' placeholder='Start'/>
-              <TextInput className='bg-white p-4 border-2 rounded-xl font-bold color-black' placeholder='Destination'/>
+              <TextInput onSubmitEditing={handleStartSearch} value={startPosition} onChangeText={(text) => setStartPosition(text)} className='bg-white p-4 mb-4 border-2 rounded-xl font-bold color-black' placeholder='Start'/>
+              <TextInput onSubmitEditing={handleEndSearch} value={destinationPosition} onChangeText={(text) => setDestinationPosition(text)} className='bg-white p-4 border-2 rounded-xl font-bold color-black' placeholder='Destination'/>
             </View>
             <View className='ml-4'>
               <SwapIcon/>
             </View>
           </View>
           <View className='flex flex-row items-center justify-around h-1/6'>
-            <TouchableOpacity onPress={() => setSelected('car')} className={`flex p-2 rounded-3xl flex-row justify-around items-center ${selected === 'car' ? 'bg-primary-red' : ''}`}>
+            <TouchableOpacity onPress={() => setSelected('car')} className={`flex mr-1 p-2 rounded-3xl flex-row justify-around items-center ${selected === 'car' ? 'bg-primary-red' : ''}`}>
               <CarIcon isSelected={selected === 'car'? true : false}/>
               <Text className={`ml-2 font-semibold ${selected === 'car' ? 'color-selected' : ''}`}>30 min</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSelected('bike')} className={`flex p-2 rounded-3xl flex-row justify-around items-center ${selected === 'bike' ? 'bg-primary-red' : ''}`}>
+            <TouchableOpacity onPress={() => setSelected('bike')} className={`flex mr-1 p-2 rounded-3xl flex-row justify-around items-center ${selected === 'bike' ? 'bg-primary-red' : ''}`}>
               <BikeNavIcon isSelected={selected === 'bike'? true : false} />
               <Text className={`ml-2 font-semibold ${selected === 'bike' ? 'color-selected' : ''}`}>30 min</Text>
             </TouchableOpacity>
@@ -100,4 +118,3 @@ const styles = StyleSheet.create({
 });
 
 export default MapTraceroute;
-

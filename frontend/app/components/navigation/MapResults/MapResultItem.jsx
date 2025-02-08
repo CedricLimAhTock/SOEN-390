@@ -8,10 +8,13 @@ import DirectionsIcon from '../Icons/DirectionsIcon';
 import { useRef } from 'react';
 import SmallNavigationIcon from '../Icons/SmallNavigationIcon';
 
-const MapResultItem = ({building, start, setStart, end, setEnd,  name, address,isHandicap, isBike, isMetro, isInfo}) => {
+const MapResultItem = ({setCloseTraceroute, setStartPosition,setDestinationPosition,building, start, setStart, end, setEnd,  name, address,isHandicap, isBike, isMetro, isInfo}) => {
 
     const handleGetDirections = () => {
+        setCloseTraceroute(false);
         setEnd(building.point);
+        setDestinationPosition(building.name);
+        setStartPosition('Your Location');
     }
 
     return (

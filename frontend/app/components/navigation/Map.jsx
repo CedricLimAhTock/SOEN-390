@@ -21,20 +21,27 @@ export default function Map() {
   const [locationData, setLocationData] = useState(SGWLocation);
   const [isSearch, setIsSearch] = useState(false);
   const [selectedBuilding, setSelectedBuilding] = useState(null);
-  const [start, setStart] = useState();
-  const [end, setEnd] = useState();
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [searchText, setSearchText] = useState('');
+  const [start, setStart] = useState(); // start lat lng of traceroute
+  const [end, setEnd] = useState(); // destination lt lng of traceroute
+  const [location, setLocation] = useState(null); // current user location
+  const [errorMsg, setErrorMsg] = useState(null); // error message when getting location
+  const [searchText, setSearchText] = useState(''); // textinput value
+  const [closeTraceroute, setCloseTraceroute] = useState(false); // bool to hide traceroute
+  const [startPosition, setStartPosition] = useState(''); // name of start position for traceroute
+  const [destinationPosition, setDestinationPosition] = useState(''); // name of destination position for traceroute
 
   const ref = useRef(null);
 
   const handleSetStart = () => {
-    // handle set start logic
+    setStart(selectedBuilding.position)
+    setDestinationPosition(selectedBuilding.name)
   };
 
   const handleGetDirections = () => {
-    // handle get directions logic
+    setIsSearch(true);
+    setEnd(selectedBuilding.point);
+    setDestinationPosition(selectedBuilding.name);
+    setStartPosition('Your Location');
   };
 
   const handleLoyola = () => {
@@ -54,6 +61,10 @@ export default function Map() {
     setIsSelected(true);
   };
 
+  const panToMyLocation = () => {
+    ref.current?.animateToRegion(location.coords)
+  }
+
   useEffect(() => {
     async function getCurrentLocation() {
       
@@ -68,27 +79,24 @@ export default function Map() {
       setStart(location.coords)
     }
     getCurrentLocation();
-  }, []);
+  }, [end]);
 
-  console.log("loc");
-  console.log(JSON.stringify(location));
 
   const renderPolygons = polygons.map((building, idx) => {
     return (
       <View key={idx}>
         {
-          (!start || (start?.latitude !== building.point?.latitude && start?.longitude !== building.point?.longitude)) &&
-          (!end || (end?.latitude !== building.point?.latitude && end?.longitude !== building.point?.longitude)) &&
+          end == null &&
           <Marker
           coordinate={building.point}
           // You can decide whether you want onPress on the Marker or the Callout
           onPress={() => handleMarkerPress(building)}
           image={require("../../../assets/concordia-logo.png")}
-        >
+          >
           <Callout tooltip={true}>
             <MapCard
               name={building.name}
-              address={'1515 St. Catherine W'}
+              address={building.address}
               isHandicap={true}
               isMetro={true}
               isInfo={true}
@@ -112,10 +120,10 @@ export default function Map() {
   const handleMapPress = () => {
   }
 
-  console.log("end")
-  console.log(end)
-  console.log("start")
-  console.log(start)
+  const panToStart = () => {
+    if (start == null) return;
+    ref.current?.animateToRegion(start);
+  }
 
   return (
     <View style={styles.container}>
@@ -133,6 +141,7 @@ export default function Map() {
         onPress={handleMapPress}
         
       > 
+        <Marker coordinate={start} image={require("../../../assets/my_location.png")}/>
         {start != null && end != null ? (<Marker coordinate={end}/>) : null}
         {start != null && end != null ? (<Marker coordinate={start}/>) : null}
         {start != null && end != null ? (<MapViewDirections
@@ -143,14 +152,20 @@ export default function Map() {
           strokeWidth={6}
           onReady={traceRouteOnReady}
         />): null}
-        {/* Render your polygons/markers */}
         {renderPolygons}
       </MapView>
-      {start != null && end != null ? (<MapTraceroute/>) : null}
-      {start != null && end != null ? (<MapTracerouteBottom/>) : null}
+      {console.log("hh")}
+      {console.log(start)}
+      {console.log("aa")}
+      {console.log(end)}
+      {start != null && end != null ? (<MapTraceroute end={end} start={start} setStart={setStart} setEnd={setEnd} startPosition={startPosition} destinationPosition={destinationPosition} setStartPosition={setStartPosition} setDestinationPosition={setDestinationPosition} setIsSearch={setIsSearch} closeTraceroute={closeTraceroute} setCloseTraceroute={setCloseTraceroute}/>) : null}
+      {start != null && end != null ? (<MapTracerouteBottom panToStart={panToStart} end={end} start={start} closeTraceroute={closeTraceroute} setCloseTraceroute={setCloseTraceroute} />) : null}
       {/* If isSearch is true, show MapResults. Otherwise, maybe show the search bar.
           Also ensure that if a building is selected, we hide these. */}
       {isSearch && end == null && <MapResults
+        setCloseTraceroute={setCloseTraceroute}
+        setStartPosition={setStartPosition}
+        setDestinationPosition={setDestinationPosition}
         start={start}
         end={end}
         setStart={setStart}
@@ -185,7 +200,7 @@ export default function Map() {
       )}
 
       {/* Example current location marker (optional); show/hide as you wish */}
-      {!isSearch && <MapLocation setLocation={() => {}} />}
+      {!isSearch && <MapLocation panToMyLocation={panToMyLocation} setLocation={() => {}} />}
 
       {/* Show the "Set Start" / "Get Directions" buttons ONLY if a building is selected */}
       {selectedBuilding && !isSearch && (
