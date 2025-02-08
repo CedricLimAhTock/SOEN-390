@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Animated, View, Text, StyleSheet, Dimensions, TouchableOpacity, TouchableHighlight} from 'react-native';
 import MapView, {Marker, PROVIDER_DEFAULT, Polygon, Callout, PROVIDER_GOOGLE} from 'react-native-maps';
 import NavigationIcon from './Icons/NavigationIcon';
-import { buildings, SGWLocation, LoyolaLocation} from '../../screens/navigation/navigationConfig';
+import { polygons, SGWLocation, LoyolaLocation} from '../../screens/navigation/navigationConfig';
 import MapCard from './MapCard';
 import MapSearch from './MapSearch';
 import SGWIcon from './Icons/SGWIcon';
@@ -10,6 +10,7 @@ import LoyolaIcon from './Icons/LoyolaIcon'
 import DirectionsIcon from './Icons/DirectionsIcon';
 import MapLocation from './MapLocation';
 import MapResults from './MapResults';
+import MapViewDirections from 'react-native-maps-directions';
 
 
 export default function Map() {
@@ -38,7 +39,8 @@ export default function Map() {
     ref.current.animateToRegion(SGWLocation)
   }
 
-  const renderPolygons = buildings.map((building, idx) => {
+  const renderPolygons = polygons.map((building, idx) => {
+    console.log("testing")
     return (
         <View key={idx}>
           <Marker
@@ -47,7 +49,7 @@ export default function Map() {
           >
             <Callout tooltip={true}>
               <MapCard 
-                name={'EV Building'} 
+                name={building.name}
                 address={'1515 St. Catherine W'}
                 isHandicap={true}
                 isMetro={true}
@@ -56,7 +58,7 @@ export default function Map() {
             </Callout>
           </Marker>
           <Polygon
-            coordinates={building.location}
+            coordinates={building.boundaries}
             strokeWidth={2}
             strokeColor="#862532"
             fillColor="rgba(134, 37, 50, 0.5)"
@@ -66,10 +68,14 @@ export default function Map() {
     )
   })
 
-  
+  const traceRouteOnReady = (args) => {
+    console.log("ready")
+  }
+
+  console.log(process.env.EXPO_PUBLIC_GOOGLE_API_KEY)
 
   return (
-    <View style={styles.container}>
+    <View className='opacity-100 bg-red-500' style={styles.container}>
       <MapView
         ref={ref}
         style={styles.map}
@@ -80,8 +86,16 @@ export default function Map() {
           longitudeDelta: 0.009,
         }}
         mapType='terrain'
-        provider={PROVIDER_GOOGLE}
+        provider={PROVIDER_DEFAULT}
       >
+          <MapViewDirections
+            origin={polygons[0].point}
+            destination={polygons[1].point}
+            apikey={process.env.EXPO_PUBLIC_GOOGLE_API_KEY}
+            strokeColor="#6644ff"
+            strokeWidth={4}
+            onReady={traceRouteOnReady}
+        />
         {renderPolygons}
       </MapView>
       {isSearch && <MapResults isSearch={isSearch} setIsSearch={setIsSearch} searchText={searchText}/>}
@@ -134,7 +148,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    position: 'absolute',
   },
   map: {
     width: Dimensions.get('window').width,
