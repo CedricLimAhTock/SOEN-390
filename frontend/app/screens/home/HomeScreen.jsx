@@ -15,39 +15,14 @@ import HomeCard from "../../components/Homescreen/HomeCard";
 import MapPic from "../../../assets/MapScreenshot.png";
 import CalendarPic from "../../../assets/CalendarScreenshot.png";
 import { useNavigation } from "@react-navigation/native";
-import { useAppSettings } from "../../TextSizeContext";
 import { useTextSize } from "../../TextSizeContext";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const { colorBlindMode } = useAppSettings();
-  const blinder = require("color-blind");
+
   const { textSize, setTextSize } = useTextSize(); // Get global text size from context
 
   // Apply theme colors based on selected mode
-  const getThemeColors = () => {
-    switch (colorBlindMode) {
-      case "deuteranomaly":
-        return {
-          backgroundColor: blinder.deuteranomaly("#7c2933"),
-          textColor: "#FFF",
-        };
-      case "protanomaly":
-        return {
-          backgroundColor: blinder.protanomaly("#7c2933"),
-          textColor: "#FFF",
-        };
-      case "tritanomaly":
-        return {
-          backgroundColor: blinder.tritanomaly("#7c2933"),
-          textColor: "#FFF",
-        };
-      default:
-        return { backgroundColor: "#7c2933", textColor: "#FFF" };
-    }
-  };
-
-  const theme = getThemeColors();
 
   const { signOut, isSignedIn } = useAuth();
   const [username, setUsername] = useState("");
