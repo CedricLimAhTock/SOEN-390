@@ -46,8 +46,8 @@ const MapTracerouteBottom = ({isRoute, setIsRoute, end,start, panToStart,closeTr
   };
 
   return (
-    <Animated.View style={[styles.slidingView, { top: slideAnim }]}>
-      <View className='w-4/6 flex flex-row justify-around'>
+    <Animated.View className='absolute mb-10 bottom-20' style={[styles.slidingView, { top: slideAnim }]}>
+      <View className='w-4/6 mb-10 flex flex-row justify-around'>
         <View className='flex flex-row justify-around items-center'>
           <Text className='color-green-500 font-medium mr-2'>30 min</Text>
           <Text className='font-medium'>(20.0 km)</Text>
@@ -64,7 +64,7 @@ const MapTracerouteBottom = ({isRoute, setIsRoute, end,start, panToStart,closeTr
 const styles = StyleSheet.create({
   slidingView: {
     position: 'absolute',
-    height: '10%', // 10% of the screen height
+    height: '30%', // 10% of the screen height
     width: '100%', // Full width
     backgroundColor: 'white', // Custom background color
     justifyContent: 'center', // Center content vertically

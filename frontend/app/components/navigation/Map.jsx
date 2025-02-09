@@ -14,6 +14,7 @@ import MapLocation from './MapLocation';
 import MapTraceroute from './MapTraceroute';
 import * as Location from 'expo-location';
 import MapTracerouteBottom from './MapTracerouteBottom';
+import BottomNavBar from '../BottomNavBar/BottomNavBar';
 
 export default function Map() {
   const [searchResult, setSearchResult] = useState([]);
@@ -155,6 +156,8 @@ export default function Map() {
     getCurrentLocation();
   }, []);
 
+  console.log(process.env.EXPO_PUBLIC_GOOGLE_API_KEY)
+
   return (
     <View style={styles.container}>
       <MapView
@@ -240,7 +243,7 @@ export default function Map() {
 
       {/* Show the "Set Start" / "Get Directions" buttons ONLY if a building is selected */}
       {selectedBuilding && !isSearch && (
-        <View className='absolute w-full bottom-10'>
+        <View className='absolute w-full bottom-20'>
           <View className='flex flex-row justify-center items-center'>
             <TouchableHighlight
               style={styles.shadow}
@@ -265,6 +268,9 @@ export default function Map() {
           </View>
         </View>
       )}
+      <View className='w-full absolute bottom-0'>
+        <BottomNavBar/>
+      </View>
     </View>
   );
 }
