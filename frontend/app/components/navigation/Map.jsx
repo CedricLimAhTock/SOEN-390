@@ -30,13 +30,14 @@ export default function Map() {
   const [startPosition, setStartPosition] = useState(''); // name of start position for traceroute
   const [destinationPosition, setDestinationPosition] = useState(''); // name of destination position for traceroute
   const [campus, setCampus] = useState('sgw');
-
+  const [isRoute, setIsRoute] = useState(false);
   const ref = useRef(null);
+  const polygonRef = useRef(null);
 
   const handleSetStart = () => {
-    console.log(start != location.coords)
-    console.log(start != null);
     if (start != null && start != location?.coords) {
+      console.log("trying to ")
+      setIsRoute(true);
       setIsSearch(true);
       setDestinationPosition(selectedBuilding.name);
       setEnd(selectedBuilding.point);
@@ -44,13 +45,14 @@ export default function Map() {
     }
     setStart(selectedBuilding.point)
     setStartPosition(selectedBuilding.name)
-    console.log("start set")
   };
 
   const handleGetDirections = () => {
+    setIsRoute(true);
     setIsSearch(true);
     setEnd(selectedBuilding.point);
     setDestinationPosition(selectedBuilding.name);
+    setStart(location.coords);
     setStartPosition('Your Location');
   };
 
@@ -77,32 +79,15 @@ export default function Map() {
     ref.current?.animateToRegion(location.coords)
   }
 
-  useEffect(() => {
-    if (location != null && start != location.coords) return;
-    async function getCurrentLocation() {
-      
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      setStart(location.coords)
-    }
-    getCurrentLocation();
-  }, [end]);
-
+ 
 
   const renderPolygons = polygons.map((building, idx) => {
     return (
       <View key={idx}>
         {
-          end == null &&
+          end == null ?
           <Marker
           coordinate={building.point}
-          // You can decide whether you want onPress on the Marker or the Callout
           onPress={() => handleMarkerPress(building)}
           image={require("../../../assets/concordia-logo.png")}
           >
@@ -115,7 +100,7 @@ export default function Map() {
               isInfo={true}
             />
           </Callout>
-        </Marker>}
+        </Marker> : null}
         <Polygon
           coordinates={building.boundaries}
           strokeWidth={2}
@@ -130,6 +115,15 @@ export default function Map() {
     console.log("Directions are ready!");
   };
 
+  const reset = () => {
+    setIsRoute(false);
+    setIsSearch(false);
+    setEnd(null);
+    setStart(null);
+    setSelectedBuilding(null);
+    setCloseTraceroute(false);
+  }
+
   const handleMapPress = () => {
   }
 
@@ -138,9 +132,28 @@ export default function Map() {
     ref.current?.animateToRegion(start);
   }
 
-  console.log(location)
-  console.log("sst")
-  console.log(start)
+  useEffect(()=>{
+    console.log("is route: " + isRoute)
+  },[isRoute])
+
+  console.log("start: "+start)
+  console.log("end: "+end)
+
+  useEffect(() => {
+    if (location != null && start != location.coords) return;
+    async function getCurrentLocation() {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    }
+    getCurrentLocation();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -156,6 +169,8 @@ export default function Map() {
         mapType='terrain'
         provider={PROVIDER_DEFAULT}
         onPress={handleMapPress}
+        end={end}
+        start={start}
         
       > 
         {location != null && <Marker coordinate={location.coords} image={require("../../../assets/my_location.png")}/>}
@@ -169,13 +184,21 @@ export default function Map() {
           strokeWidth={6}
           onReady={traceRouteOnReady}
         />): null}
-        {renderPolygons}
+        <View ref={polygonRef}>
+          {console.log("rerendered")}
+          {console.log(end)}
+          {console.log(start)}
+          {renderPolygons}
+        </View>
       </MapView>
-      {start != null && end != null ? (<MapTraceroute panToMyLocation={panToMyLocation} end={end} start={start} setStart={setStart} setEnd={setEnd} startPosition={startPosition} destinationPosition={destinationPosition} setStartPosition={setStartPosition} setDestinationPosition={setDestinationPosition} setIsSearch={setIsSearch} closeTraceroute={closeTraceroute} setCloseTraceroute={setCloseTraceroute}/>) : null}
-      {start != null && end != null ? (<MapTracerouteBottom panToStart={panToStart} end={end} start={start} closeTraceroute={closeTraceroute} setCloseTraceroute={setCloseTraceroute} />) : null}
+      {isRoute ? (<MapTraceroute setIsRoute={setIsRoute} reset={reset} isRoute={isRoute} setSelectedBuilding={setSelectedBuilding} handleSGW={handleSGW} panToMyLocation={panToMyLocation} end={end} start={start} setStart={setStart} setEnd={setEnd} startPosition={startPosition} destinationPosition={destinationPosition} setStartPosition={setStartPosition} setDestinationPosition={setDestinationPosition} setIsSearch={setIsSearch} closeTraceroute={closeTraceroute} setCloseTraceroute={setCloseTraceroute}/>) : null}
+      {isRoute ? (<MapTracerouteBottom setIsRoute={setIsRoute} isRoute={isRoute} panToStart={panToStart} end={end} start={start} closeTraceroute={closeTraceroute} setCloseTraceroute={setCloseTraceroute} />) : null}
       {/* If isSearch is true, show MapResults. Otherwise, maybe show the search bar.
           Also ensure that if a building is selected, we hide these. */}
       {isSearch && end == null && <MapResults
+        location={location}
+        setIsRoute={setIsRoute}
+        isRoute={isRoute}
         setCloseTraceroute={setCloseTraceroute}
         setStartPosition={setStartPosition}
         setDestinationPosition={setDestinationPosition}
@@ -225,7 +248,7 @@ export default function Map() {
               onPress={handleSetStart}
             >
               <View className='flex flex-row justify-around items-center'>
-                {start != location?.coords ? <Text className='color-white mr-4 font-bold'>Set Destination</Text> : <Text className='color-white mr-4 font-bold'>Set Start</Text>}
+                {start != null && start != location?.coords ? <Text className='color-white mr-4 font-bold'>Set Destination</Text> : <Text className='color-white mr-4 font-bold'>Set Start</Text>}
                 <NavigationIcon />
               </View>
             </TouchableHighlight>

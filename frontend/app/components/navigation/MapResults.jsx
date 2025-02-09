@@ -4,7 +4,7 @@ import SearchIcon from './Icons/SearchIcon';
 import MapResultItem from './MapResults/MapResultItem';
 import { polygons } from '../../screens/navigation/navigationConfig';
 
-const MapResults = ({ setCloseTraceroute,setStartPosition,setDestinationPosition, start, setStart, end, setEnd, searchResult, setSearchResult, searchText, setSearchText, isSearch, setIsSearch }) => {
+const MapResults = ({location, setIsRoute, isRoute, setCloseTraceroute,setStartPosition,setDestinationPosition, start, setStart, end, setEnd, searchResult, setSearchResult, searchText, setSearchText, isSearch, setIsSearch }) => {
     const [selected, setSelected] = useState('');
 
     const screenHeight = Dimensions.get('window').height;
@@ -21,7 +21,7 @@ const MapResults = ({ setCloseTraceroute,setStartPosition,setDestinationPosition
 
     const renderResults = searchResult.map((building, idx) => {
         return (
-            <MapResultItem setCloseTraceroute={setCloseTraceroute}  setStartPosition={setStartPosition} setDestinationPosition={setDestinationPosition} building={building} start={start} setStart={setStart} end={end} setEnd={setEnd} key={idx} name={building.name} address={building.address} isHandicap={building.isHandicap} isBike={building.isBike} isMetro={building.isMetro} isInfo={building.isInfo} />
+            <MapResultItem setIsSearch={setIsSearch} location={location} isRoute={isRoute} setIsRoute={setIsRoute} setCloseTraceroute={setCloseTraceroute}  setStartPosition={setStartPosition} setDestinationPosition={setDestinationPosition} building={building} start={start} setStart={setStart} end={end} setEnd={setEnd} key={idx} name={building.name} address={building.address} isHandicap={building.isHandicap} isBike={building.isBike} isMetro={building.isMetro} isInfo={building.isInfo} />
         );
     });
 

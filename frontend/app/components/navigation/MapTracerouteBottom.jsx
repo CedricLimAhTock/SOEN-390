@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { Animated, StyleSheet, View, Dimensions, TouchableOpacity, Text } from 'react-native';
 import StartIcon from './Icons/StartIcon';
 
-const MapTracerouteBottom = ({end,start, panToStart,closeTraceroute, setCloseTraceroute }) => {
+const MapTracerouteBottom = ({isRoute, setIsRoute, end,start, panToStart,closeTraceroute, setCloseTraceroute }) => {
   const screenHeight = Dimensions.get('window').height;
   const slideAnim = useRef(new Animated.Value(screenHeight)).current; // Start from off-screen (bottom)
 
@@ -28,6 +28,10 @@ const MapTracerouteBottom = ({end,start, panToStart,closeTraceroute, setCloseTra
   useEffect(() => {
     slideUp(); 
   }, [end, start]);
+
+  useEffect(() => {
+
+  },[isRoute])
 
   // Slide out when closeTraceroute is set to true
   useEffect(() => {

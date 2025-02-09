@@ -5,10 +5,23 @@ import MetroIcon from '../Icons/MetroIcon';
 import InformationIcon from '../Icons/InformationIcon';
 import NavigationIcon from '../Icons/NavigationIcon';
 import DirectionsIcon from '../Icons/DirectionsIcon';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import SmallNavigationIcon from '../Icons/SmallNavigationIcon';
 
-const MapResultItem = ({setCloseTraceroute, setStartPosition,setDestinationPosition,building, start, setStart, end, setEnd,  name, address,isHandicap, isBike, isMetro, isInfo}) => {
+const MapResultItem = ({isRoute, location, setIsSearch,setIsRoute, setCloseTraceroute, setStartPosition,setDestinationPosition,building, start, setStart, end, setEnd,  name, address,isHandicap, isBike, isMetro, isInfo}) => {
+
+    const handleSetStart = () => {
+        if (start != null && start != location?.coords) {
+          console.log("trying to ")
+          setIsRoute(true);
+          setIsSearch(true);
+          setDestinationPosition(building.name);
+          setEnd(building.point);
+          return;
+        }
+        setStart(building.point)
+        setStartPosition(building.name)
+    };
 
     const handleGetDirections = () => {
         setCloseTraceroute(false);
@@ -16,6 +29,10 @@ const MapResultItem = ({setCloseTraceroute, setStartPosition,setDestinationPosit
         setDestinationPosition(building.name);
         setStartPosition('Your Location');
     }
+
+    useEffect(() => {
+
+    },[start, end, isRoute])
 
     return (
         <View style={styles.shadow} className='w-full  mb-4 bg-secondary-bg p-4 rounded-lg flex flex-col justify-center items-center'>
@@ -36,9 +53,9 @@ const MapResultItem = ({setCloseTraceroute, setStartPosition,setDestinationPosit
                 <Text className='color-slate-400 text-xs'>{address}</Text>
             </View>
             <View className='flex flex-row justify-around items-center'>
-                <TouchableHighlight style={styles.shadow} className='mr-4 rounded-xl p-4 bg-primary-red'>
+                <TouchableHighlight onPress={handleSetStart} style={styles.shadow} className='mr-4 rounded-xl p-4 bg-primary-red'>
                     <View className='flex flex-row justify-around items-center'>
-                    <Text className='color-white mr-4 font-bold'>Set Start</Text>
+                        {start != null && start != location?.coords ? <Text className='color-white mr-4 font-bold'>Set Destination</Text> : <Text className='color-white mr-4 font-bold'>Set Start</Text>}
                     <NavigationIcon/>
                     </View>
                 </TouchableHighlight>

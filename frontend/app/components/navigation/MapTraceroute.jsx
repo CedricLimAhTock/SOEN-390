@@ -15,7 +15,7 @@ import {
   GooglePlacesAutocomplete,
 } from "react-native-google-places-autocomplete";
 
-const MapTraceroute = ({panToMyLocation,end, start, setEnd, setStart, startPosition,destinationPosition,setStartPosition, setDestinationPosition,closeTraceroute, setCloseTraceroute, setIsSearch}) => {
+const MapTraceroute = ({ reset, isRoute, setIsRoute, setSelectedBuilding, panToMyLocation,end, start, setEnd, setStart, startPosition,destinationPosition,setStartPosition, setDestinationPosition,closeTraceroute, setCloseTraceroute, setIsSearch}) => {
 
   const [selected, setSelected] = useState('');
 
@@ -40,8 +40,7 @@ const MapTraceroute = ({panToMyLocation,end, start, setEnd, setStart, startPosit
   const handleCloseTraceroute = () => {
     slideOut();
     setCloseTraceroute(true);
-    setIsSearch(false);
-    setEnd(null);
+    reset();
   }
 
   const handleStartSearch = () => {
@@ -56,7 +55,7 @@ const MapTraceroute = ({panToMyLocation,end, start, setEnd, setStart, startPosit
     if (!closeTraceroute) {
       slideIn();
     }
-  })
+  },[closeTraceroute])
 
   const onPlaceSelected = (
     details,
@@ -70,6 +69,11 @@ const MapTraceroute = ({panToMyLocation,end, start, setEnd, setStart, startPosit
     set(position);
     panToMyLocation(position);
   };
+
+  useEffect(() => {
+
+  },[end,start,isRoute])
+
 
   const InputAutocomplete = ({
     label,
@@ -95,10 +99,6 @@ const MapTraceroute = ({panToMyLocation,end, start, setEnd, setStart, startPosit
       </>
     );
   }
-
-  useEffect(() => {
-
-  },[startPosition,destinationPosition, start, end])
 
   return (
       <Animated.View className='rounded-xl p-3' style={[styles.slidingView, styles.shadow,{ top: slideAnim }]}>
