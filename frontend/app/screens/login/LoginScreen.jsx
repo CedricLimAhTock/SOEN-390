@@ -12,6 +12,7 @@ import { useOAuth, useUser, useAuth } from "@clerk/clerk-expo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ConcordiaLogo from "../../components/ConcordiaLogo";
 import * as WebBrowser from "expo-web-browser";
+import ContinueWithGoogle from "../../components/ContinueWithGoogle";
 
 export default function LoginScreen() {
   return <LoginScreenContent />;
@@ -167,27 +168,14 @@ function LoginScreenContent() {
         style={{ opacity: formOpacity }}
       >
         <View className="w-full bg-white rounded-t-[50px] py-32 px-6 items-center shadow-md">
-          {/* Google Sign-In Button */}
-          <TouchableOpacity
-            onPress={handleGoogleSignIn}
-            className="flex-row items-center bg-white rounded-xl py-3 px-6 shadow-md"
-          >
-            <Image
-              source={{
-                uri: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
-              }}
-              className="w-6 h-6 mr-3"
-            />
-            <Text className="text-black text-lg font-semibold">
-              Continue with Google
-            </Text>
+
+          <TouchableOpacity>
+            <ContinueWithGoogle onPress={handleGoogleSignIn}/>
           </TouchableOpacity>
 
-          {/* Guest Login Button */}
+
           <TouchableOpacity className="mt-5" onPress={handleGuestLogin}>
-            <Text className="text-[#1A73E8] text-lg font-medium underline">
-              Continue as Guest
-            </Text>
+            <Text className="text-[#1A73E8] text-lg font-medium underline">Continue as Guest</Text>
           </TouchableOpacity>
         </View>
       </Animated.View>
