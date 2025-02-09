@@ -137,6 +137,10 @@ export const polygons = [
     },
     {
       name: "FA Annex",
+      point: {
+        latitude:45.496893526958395, longitude:-73.57965328949106
+      },
+      address:"2060 MacKay, 2080 Mackay St",
       boundaries: [
         { latitude: 45.496948005596415, longitude: -73.57966550307407 },
         { latitude: 45.496907520116025, longitude: -73.57957844786766 },
@@ -146,6 +150,11 @@ export const polygons = [
     },
     {
       name: "FB Building",
+      point: {
+        latitude:45.49468404750868,longitude: -73.5776489392095
+      },
+      address: "1250 Guy St",
+      departments: ["District 3 Innovation Center","School of Cinema"],
       boundaries: [
         { latitude: 45.494910829307685, longitude: -73.57778731254975 },
         { latitude: 45.494869794198756, longitude: -73.5777118267677 },
@@ -165,6 +174,11 @@ export const polygons = [
     },
     {
       name: "FG Building",
+      point: {
+        latitude:45.49416585105086, longitude:-73.57833248965449
+      },
+      address: "1610 St. Catherine W.",
+      departments: ["Education"],
       boundaries: [
         { latitude: 45.49469528170287, longitude: -73.57803758887717 },
         { latitude: 45.49444362886454, longitude: -73.57760516680655 },
@@ -187,6 +201,10 @@ export const polygons = [
     },
     {
       name: "Grey Nuns Building",
+      point: {
+        latitude:45.493486154634866, longitude:-73.57669450029397
+      },
+      address: "1175 Rue St Mathieu",
       boundaries: [
         { latitude: 45.49438634877265, longitude: -73.57705379340725 },
         { latitude: 45.49401699180863, longitude: -73.57628160350787 },
@@ -247,6 +265,11 @@ export const polygons = [
     },
     {
       name: "Guy-de Maisonneuve",
+      point: {
+        latitude:45.495871434958005, longitude:-73.57879508417773
+      },
+      address: "1550 De Maisonneuve W.",
+      departments: ["Contemporary Dance","Music","Theatre"],
       boundaries: [
         { latitude: 45.496127875902936, longitude: -73.57880793921294 },
         { latitude: 45.49594500840482, longitude: -73.57843483789237 },
@@ -258,6 +281,10 @@ export const polygons = [
     },
     {
       name: "GS Building",
+      point: {
+        latitude:45.496598173335705,longitude:-73.58117219175675
+      },
+      address: "1538 Sherbrooke St. W.",
       boundaries: [
         { latitude: 45.49675255522154, longitude: -73.58136675153412 },
         { latitude: 45.49674206620078, longitude: -73.58132373010108 },
@@ -297,6 +324,11 @@ export const polygons = [
     },
     {
       name: "LB Building",
+      point: {
+        latitude:45.496806875043575, longitude:-73.57794802982542
+      },
+      address: "1400 De Maisonneuve Blvd. W.",
+      departments: ["CISSC","Education","English"],
       boundaries: [
         { latitude: 45.49725839136548, longitude: -73.57805850161982 },
         { latitude: 45.49704004318071, longitude: -73.57759018965103 },
@@ -320,6 +352,11 @@ export const polygons = [
     },
     {
       name: "LS Building",
+      point: {
+        latitude:45.49636175524323, longitude:-73.5794351580434
+      },
+      departments: ["IT Services"],
+      address: "1535 De Maisonneuve Blvd. W.",
       boundaries: [
         { latitude: 45.49653374701379, longitude: -73.57956990256748 },
         { latitude: 45.49638147665505, longitude: -73.57923444889067 },
@@ -331,6 +368,10 @@ export const polygons = [
     },
     {
       name: "M Annex",
+      point: {
+        latitude: 45.497359445972506, longitude:-73.57977066219894
+      },
+      address: "2135 Mackay St",
       boundaries: [
         { latitude: 45.49742664469608, longitude: -73.57975562224226 },
         { latitude: 45.49738763308881, longitude: -73.57968119104282 },
@@ -349,6 +390,11 @@ export const polygons = [
     },
     {
       name: "MU Annex",
+      point: {
+        latitude:45.49787093515154, longitude:-73.57957660874176
+      },
+      address: "2170 Bishop",
+      departments: ["CUPFA","Concordia Coop Bookstore"],
       boundaries: [
         { latitude: 45.49796235489539, longitude: -73.57953690960254 },
         { latitude: 45.49792034354915, longitude: -73.57946198964135 },
@@ -358,11 +404,15 @@ export const polygons = [
     },
     {
       name: "P Annex",
+      point: {
+        latitude: 45.49672080173269, longitude:-73.57935779880465
+      },
+      address: "2020 Mackay St",
       boundaries: [
-        { latitude: 45.49679777025396, longitude: -73.57933313172266 },
-        { latitude: 45.496784050678215, longitude: -73.57930307354754 },
-        { latitude: 45.49671888299396, longitude: -73.57937018038838 },
-        { latitude: 45.49673211256902, longitude: -73.57939884048716 },
+        { latitude: 45.49665200424951, longitude:-73.57947787452528},
+        { latitude: 45.49679618611247, longitude:-73.57933169538711 },
+        { latitude: 45.496759591765965, longitude:-73.57925547340794 },
+        { latitude: 45.49661467792026, longitude:-73.5793995642727 },
       ],
     },
     {
@@ -376,6 +426,10 @@ export const polygons = [
     },
     {
       name: "Q Annex",
+      point: {
+        latitude:45.4966176054764, longitude:-73.57910198531287
+      },
+      address: "2010 Mackay St",
       boundaries: [
         { latitude: 45.49667618698685, longitude: -73.57908077242534 },
         { latitude: 45.496645635316945, longitude: -73.57902444612301 },
@@ -394,6 +448,11 @@ export const polygons = [
     },
     {
       name: "RR Annex",
+      point: {
+        latitude:45.496768374411296, longitude:-73.57944237387743
+      },
+      address: "2040 Mackay St",
+      departments: ["Liberal Arts College"],
       boundaries: [
         { latitude: 45.496831906175686, longitude: -73.57944503832626 },
         { latitude: 45.49679054410886, longitude: -73.57935451368968 },
@@ -403,6 +462,11 @@ export const polygons = [
     },
     {
       name: "S Annex",
+      point: {
+        latitude: 45.49740510973528, longitude:-73.57984883775381
+      },
+      address: "2145 Mackay St",
+      departments: ["Department of Philosophy"],
       boundaries: [
         { latitude: 45.49749068391561, longitude: -73.57981334272769 },
         { latitude: 45.49745919263725, longitude: -73.57975299305292 },
@@ -434,6 +498,10 @@ export const polygons = [
     },
     {
       name: "V Annex",
+      point: {
+        latitude:45.49706797687867,longitude: -73.58006719227089
+      },
+      address: "2090 Mackay St",
       boundaries: [
         { latitude: 45.497087190183805, longitude: -73.57991517059297 },
         { latitude: 45.4970481782724, longitude: -73.57983403377729 },
@@ -458,6 +526,10 @@ export const polygons = [
     },
     {
       name: "X Annex",
+      point: {
+        latitude: 45.49695760325471, longitude: -73.5798358084977
+      },
+      address: "2080 Mackay St",
       boundaries: [
         { latitude: 45.49701825801721, longitude: -73.57982924145175 },
         { latitude: 45.49697830609942, longitude: -73.57975078691274 },
@@ -789,6 +861,11 @@ export const polygons = [
     },
     {
       name: "Student Center",
+      point: {
+        latitude:45.45860551720628, longitude:-73.64103623036401 
+      },
+      departments: ["Cafe","Campus Centre"  ],
+      address: "7141 Sherbrooke St W",
       boundaries: [
         { latitude: 45.45918653124292, longitude: -73.63935394855122 },
         { latitude: 45.45907882296455, longitude: -73.63905421166972 },
@@ -798,6 +875,10 @@ export const polygons = [
     },
     {
       name: "Solar House",
+      point: {
+        latitude:45.45928142821381, longitude:-73.64253871077227
+      },
+      address: "7141 Sherbrooke W",
       boundaries: [
         { latitude: 45.45933420269998, longitude: -73.64265845517272 },
         { latitude: 45.45933081688494, longitude: -73.64239744701572 },
@@ -807,6 +888,10 @@ export const polygons = [
     },
     {
       name: "Saint Ignatius of Loyola Catholic Church",
+      point: {
+        latitude:45.457903577882405, longitude:-73.642292915826
+      },
+      address:"4455 Broadway",
       boundaries: [
         { latitude: 45.45816640264312, longitude: -73.64252315784637 },
         { latitude: 45.45811784212762, longitude: -73.64240039852407 },
@@ -847,6 +932,11 @@ export const polygons = [
     },
     {
       name: "Richard J Renaud Science Complex",
+      point: {
+        latitude:45.45752302066854,longitude: -73.64163335665545
+      },
+      address: "7141 Sherbrooke St W",
+      departments: ["Biology","Centre for Spectrometry"],
       boundaries: [
         { latitude: 45.458326098999855, longitude: -73.64141277416134 },
         { latitude: 45.45819394999942, longitude: -73.64104205802843 },

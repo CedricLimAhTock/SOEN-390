@@ -8,7 +8,7 @@ const MapResults = ({ setCloseTraceroute,setStartPosition,setDestinationPosition
     const [selected, setSelected] = useState('');
 
     const screenHeight = Dimensions.get('window').height;
-    const threshold = screenHeight * 0.25;  
+    const threshold = screenHeight * 0.40;  
     const pan = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(screenHeight * 0.75)).current;
 

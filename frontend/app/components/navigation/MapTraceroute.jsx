@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import 'react-native-get-random-values';
 import { Animated, StyleSheet, View, Button, Dimensions, Text, TouchableOpacity, TextInput } from 'react-native';
 import CarIcon from './Icons/CarIcon';
 import BikeNavIcon from './Icons/BikeNavIcon';
@@ -9,8 +10,12 @@ import DotsIcon from './Icons/DotsIcon';
 import SmallNavigationIcon from './Icons/SmallNavigationIcon';
 import SwapIcon from './Icons/SwapIcon';
 import ArrowIcon from './Icons/ArrowIcon';
+import {
+  GooglePlaceDetail,
+  GooglePlacesAutocomplete,
+} from "react-native-google-places-autocomplete";
 
-const MapTraceroute = ({end, start, setEnd, setStart, startPosition,destinationPosition,setStartPosition, setDestinationPosition,closeTraceroute, setCloseTraceroute, setIsSearch}) => {
+const MapTraceroute = ({panToMyLocation,end, start, setEnd, setStart, startPosition,destinationPosition,setStartPosition, setDestinationPosition,closeTraceroute, setCloseTraceroute, setIsSearch}) => {
 
   const [selected, setSelected] = useState('');
 
@@ -53,6 +58,48 @@ const MapTraceroute = ({end, start, setEnd, setStart, startPosition,destinationP
     }
   })
 
+  const onPlaceSelected = (
+    details,
+    flag
+  ) => {
+    const set = flag === "origin" ? setStart : setEnd;
+    const position = {
+      latitude: details?.geometry.location.lat || 0,
+      longitude: details?.geometry.location.lng || 0,
+    };
+    set(position);
+    panToMyLocation(position);
+  };
+
+  const InputAutocomplete = ({
+    label,
+    placeholder,
+    onPlaceSelected,
+  }) => {
+    return (
+      <>
+        <GooglePlacesAutocomplete
+          enableHighAccuracyLocation={true}
+          styles={{ textInput: styles.input }}
+          placeholder={placeholder || ""}
+          fetchDetails
+          
+          onPress={(data, details = null) => {
+            onPlaceSelected(details);
+          }}
+          query={{
+            key: process.env.EXPO_PUBLIC_GOOGLE_API_KEY,
+            language: "en-us",
+          }}
+        />
+      </>
+    );
+  }
+
+  useEffect(() => {
+
+  },[startPosition,destinationPosition, start, end])
+
   return (
       <Animated.View className='rounded-xl p-3' style={[styles.slidingView, styles.shadow,{ top: slideAnim }]}>
         <View className='flex h-full w-full flex-col p-2'>
@@ -65,9 +112,21 @@ const MapTraceroute = ({end, start, setEnd, setStart, startPosition,destinationP
               <DotsIcon/>
               <SmallNavigationIcon/>
             </View>
-            <View className='w-2/3'>
-              <TextInput onSubmitEditing={handleStartSearch} value={startPosition} onChangeText={(text) => setStartPosition(text)} className='bg-white p-4 mb-4 border-2 rounded-xl font-bold color-black' placeholder='Start'/>
-              <TextInput onSubmitEditing={handleEndSearch} value={destinationPosition} onChangeText={(text) => setDestinationPosition(text)} className='bg-white p-4 border-2 rounded-xl font-bold color-black' placeholder='Destination'/>
+            <View className='w-2/3 mt-8'>
+            <InputAutocomplete
+              label="Origin"
+              placeholder={startPosition}
+              onPlaceSelected={(details) => {
+                onPlaceSelected(details, "origin");
+              }}
+            />
+            <InputAutocomplete
+              label="Destination"
+              placeholder={destinationPosition}
+              onPlaceSelected={(details) => {
+                onPlaceSelected(details, "destination");
+              }}
+            />
             </View>
             <View className='ml-4'>
               <SwapIcon/>
@@ -114,6 +173,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white', // Background color (customizable)
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  input: {
+    borderColor: "#888",
+    borderWidth: 2,
   },
 });
 

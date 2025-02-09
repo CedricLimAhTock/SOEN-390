@@ -29,12 +29,22 @@ export default function Map() {
   const [closeTraceroute, setCloseTraceroute] = useState(false); // bool to hide traceroute
   const [startPosition, setStartPosition] = useState(''); // name of start position for traceroute
   const [destinationPosition, setDestinationPosition] = useState(''); // name of destination position for traceroute
+  const [campus, setCampus] = useState('sgw');
 
   const ref = useRef(null);
 
   const handleSetStart = () => {
-    setStart(selectedBuilding.position)
-    setDestinationPosition(selectedBuilding.name)
+    console.log(start != location.coords)
+    console.log(start != null);
+    if (start != null && start != location?.coords) {
+      setIsSearch(true);
+      setDestinationPosition(selectedBuilding.name);
+      setEnd(selectedBuilding.point);
+      return;
+    }
+    setStart(selectedBuilding.point)
+    setStartPosition(selectedBuilding.name)
+    console.log("start set")
   };
 
   const handleGetDirections = () => {
@@ -45,10 +55,12 @@ export default function Map() {
   };
 
   const handleLoyola = () => {
+    setCampus('loyola');
     ref.current?.animateToRegion(LoyolaLocation);
   };
 
   const handleSGW = () => {
+    setCampus('sgw');
     ref.current?.animateToRegion(SGWLocation);
   };
 
@@ -66,6 +78,7 @@ export default function Map() {
   }
 
   useEffect(() => {
+    if (location != null && start != location.coords) return;
     async function getCurrentLocation() {
       
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -125,6 +138,10 @@ export default function Map() {
     ref.current?.animateToRegion(start);
   }
 
+  console.log(location)
+  console.log("sst")
+  console.log(start)
+
   return (
     <View style={styles.container}>
       <MapView
@@ -141,7 +158,7 @@ export default function Map() {
         onPress={handleMapPress}
         
       > 
-        <Marker coordinate={start} image={require("../../../assets/my_location.png")}/>
+        {location != null && <Marker coordinate={location.coords} image={require("../../../assets/my_location.png")}/>}
         {start != null && end != null ? (<Marker coordinate={end}/>) : null}
         {start != null && end != null ? (<Marker coordinate={start}/>) : null}
         {start != null && end != null ? (<MapViewDirections
@@ -154,11 +171,7 @@ export default function Map() {
         />): null}
         {renderPolygons}
       </MapView>
-      {console.log("hh")}
-      {console.log(start)}
-      {console.log("aa")}
-      {console.log(end)}
-      {start != null && end != null ? (<MapTraceroute end={end} start={start} setStart={setStart} setEnd={setEnd} startPosition={startPosition} destinationPosition={destinationPosition} setStartPosition={setStartPosition} setDestinationPosition={setDestinationPosition} setIsSearch={setIsSearch} closeTraceroute={closeTraceroute} setCloseTraceroute={setCloseTraceroute}/>) : null}
+      {start != null && end != null ? (<MapTraceroute panToMyLocation={panToMyLocation} end={end} start={start} setStart={setStart} setEnd={setEnd} startPosition={startPosition} destinationPosition={destinationPosition} setStartPosition={setStartPosition} setDestinationPosition={setDestinationPosition} setIsSearch={setIsSearch} closeTraceroute={closeTraceroute} setCloseTraceroute={setCloseTraceroute}/>) : null}
       {start != null && end != null ? (<MapTracerouteBottom panToStart={panToStart} end={end} start={start} closeTraceroute={closeTraceroute} setCloseTraceroute={setCloseTraceroute} />) : null}
       {/* If isSearch is true, show MapResults. Otherwise, maybe show the search bar.
           Also ensure that if a building is selected, we hide these. */}
@@ -190,10 +203,10 @@ export default function Map() {
         <View className="absolute h-full justify-end items-center">
           <View style={styles.shadow} className='mb-40 rounded-xl bg-white p-4 ml-8'>
             <TouchableHighlight underlayColor={'white'} onPress={handleLoyola} className='mb-4'>
-              <LoyolaIcon />
+              <LoyolaIcon campus={campus}/>
             </TouchableHighlight>
             <TouchableHighlight underlayColor={'white'} onPress={handleSGW}>
-              <SGWIcon />
+              <SGWIcon campus={campus}/>
             </TouchableHighlight>
           </View>
         </View>
@@ -212,7 +225,7 @@ export default function Map() {
               onPress={handleSetStart}
             >
               <View className='flex flex-row justify-around items-center'>
-                <Text className='color-white mr-4 font-bold'>Set Start</Text>
+                {start != location?.coords ? <Text className='color-white mr-4 font-bold'>Set Destination</Text> : <Text className='color-white mr-4 font-bold'>Set Start</Text>}
                 <NavigationIcon />
               </View>
             </TouchableHighlight>

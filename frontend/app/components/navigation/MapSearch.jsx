@@ -17,7 +17,7 @@ const MapSearch =  ({searchResult, setSearchResult,isSearch, setIsSearch, search
     return (
         <View className='p-4 absolute w-full justify-center items-center mt-20'>
             <View style={styles.shadow} className='flex flex-row justify-between w-80 p-4 bg-white rounded-3xl'> 
-                <TextInput onSubmitEditing={handleSubmit} value={searchText} onChangeText={setSearchText} placeholder="Search the campus" className='color-slate-400'/>
+                <TextInput onSubmitEditing={handleSubmit} value={searchText} onChangeText={setSearchText} placeholder="Search the campus" className='color-slate-400 w-5/6'/>
                 <SearchIcon/>
             </View>
         </View>
