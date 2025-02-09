@@ -22,10 +22,7 @@
     "expo": "~52.0.27",
     "expo-auth-session": "~6.0.3",
     "expo-linking": "~7.0.5",
-<<<<<<< HEAD
-=======
     "expo-location": "^18.0.5",
->>>>>>> 1228e28a85f7b64703b8b4fe943dea0531366fe4
     "expo-secure-store": "~14.0.1",
     "expo-status-bar": "~2.0.1",
     "expo-web-browser": "~14.0.2",
