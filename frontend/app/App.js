@@ -1,6 +1,8 @@
-import React from "react";
+import React from 'react';
+import { Text, View } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Constants from "expo-constants";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 
 import "../global.css";

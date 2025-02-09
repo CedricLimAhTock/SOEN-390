@@ -12,6 +12,7 @@ module.exports = {
         'primary-accent': "#E6863C",
         'primary-text': "#000000",
         'secondary-text': 'rgba(0, 0, 0, 0.25)',
+        'selected': '#FFD4D4'
 
     },
   },
