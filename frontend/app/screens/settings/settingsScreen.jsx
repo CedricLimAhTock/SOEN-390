@@ -129,7 +129,7 @@ export default function SettingsScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#7c2933" }}>
       <ScrollView style={dynamicStyles.container}>
         <View style={dynamicStyles.topSection}>
           {/* Top Section - 75% of Screen */}
@@ -247,6 +247,8 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     color: "white",
     marginBottom: 60,
+    fontWeight: "bold",
+
   },
   profileContainer: {
     alignItems: "center",
@@ -273,12 +275,12 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   profileImage: {
-    width: 180,
-    height: 180,
+    width: 150,
+    height: 150,
     borderRadius: 100, // Circular image
-    borderWidth: 4,
+    borderWidth: 2,
     borderColor: "white",
-    marginTop: 70,
+    marginTop: 50,
   },
   settingItem: {
     flexDirection: "row",
