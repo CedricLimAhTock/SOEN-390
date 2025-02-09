@@ -1,29 +1,43 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Constants from "expo-constants";
+import { NavigationContainer } from "@react-navigation/native";
+import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 
-import "../global.css"
-import HomeScreen from './screens/home/HomeScreen';
-import CalendarScreen from './screens/calendar/CalendarScreen';
-import NavigationScreen from './screens/navigation/NavigationScreen';
-import LoginScreen from './screens/login/LoginScreen';
+import "../global.css";
+import HomeScreen from "./screens/home/HomeScreen";
+import CalendarScreen from "./screens/calendar/CalendarScreen";
+import NavigationScreen from "./screens/navigation/NavigationScreen";
+import LoginScreen from "./screens/login/LoginScreen";
+import LoadingScreen from "./screens/login/LoadingScreen";
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name ="Login" component={LoginScreen}/>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Calendar" component={CalendarScreen} />
-        <Stack.Screen options={{headerShown: false}} name="Navigation" component={NavigationScreen} />
-        {/* <Stack.Screen name="Navigation" component={NavigationScreen} /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ClerkProvider
+      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY}
+    >
+      <ClerkLoaded>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+            <Stack.Screen
+              name="Loading"
+              component={LoadingScreen}
+            />
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Calendar" component={CalendarScreen} />
+            <Stack.Screen name="Navigation" component={NavigationScreen} />
+            <Stack.Screen
+              name="Login"
+              options={{ headerShown: false }}
+              component={LoginScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ClerkLoaded>
+    </ClerkProvider>
   );
 }
-

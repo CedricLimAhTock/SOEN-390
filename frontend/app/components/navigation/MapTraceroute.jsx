@@ -43,14 +43,6 @@ const MapTraceroute = ({ reset, isRoute, setIsRoute, setSelectedBuilding, panToM
     reset();
   }
 
-  const handleStartSearch = () => {
-
-  }
-
-  const handleEndSearch = () => {
-
-  }
-
   useEffect(() => {
     if (!closeTraceroute) {
       slideIn();
