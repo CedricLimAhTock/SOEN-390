@@ -7,6 +7,8 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  Button,
+  Alert,
 } from "react-native";
 import Slider from "@react-native-community/slider";
 import * as ImagePicker from "expo-image-picker";
@@ -19,12 +21,15 @@ import { useAppSettings } from "../../TextSizeContext";
 import { useTextSize } from "../../TextSizeContext";
 import BottomNavBar from "../../components/BottomNavBar/BottomNavBar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "@clerk/clerk-expo";
 
 export default function SettingsScreen() {
   const [isWheelchairAccessEnabled, setWheelchairAccessEnabled] =
     useState(false);
   const [tempProfileImage, setTempProfileImage] = useState(profileImage);
   const [userName, setUserName] = useState("Guest");
+  const navigation = useNavigation();
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -94,6 +99,50 @@ export default function SettingsScreen() {
     setTextSize(tempSize);
     setProfileImage(tempProfileImage);
   };
+
+  const { signOut, isSignedIn } = useAuth();
+    // Handle logout and clear storage
+    const handleLogout = async () => {
+      try {
+        // Confirm logout
+        Alert.alert(
+          "Logout",
+          "Are you sure you want to log out?",
+          [
+            { text: "Cancel", style: "cancel" },
+            {
+              text: "Logout",
+              onPress: async () => {
+                try {
+                  // Clear all stored data
+                  await AsyncStorage.removeItem("sessionId");
+                  await AsyncStorage.removeItem("userData");
+                  await AsyncStorage.removeItem("guestMode");
+                  console.log("🗑️ Cleared stored session data.");
+  
+                  // Sign out only if the user is signed in
+                  if (isSignedIn) {
+                    await signOut();
+                    console.log("Successfully signed out!");
+                  }
+  
+                  // Reset navigation history and navigate to Login screen
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Login" }],
+                  });
+                } catch (error) {
+                  console.error("Logout Error:", error);
+                }
+              },
+            },
+          ],
+          { cancelable: false }
+        );
+      } catch (error) {
+        console.error("Logout Error:", error);
+      }
+    };
 
   return (
     <View className="flex-1">
@@ -236,6 +285,16 @@ export default function SettingsScreen() {
               Apply Changes
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleLogout}
+            style={styles.applyButton}
+            className="py-3 rounded-lg items-center mt-4"
+          >
+            <Text className="text-white text-lg font-medium">
+              Logout
+            </Text>
+          </TouchableOpacity>
+
         </View>
       </ScrollView>
       <BottomNavBar />
