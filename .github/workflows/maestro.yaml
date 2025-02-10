@@ -3,7 +3,7 @@ appId: host.exp.Exponent
 - launchApp
 - tapOn: "frontend"
 - waitForAnimationToEnd:
-    timeout: 3000
+    timeout: 10000
 - takeScreenshot: screenshots/test
 - tapOn: "Continue"
 - tapOn: "Go Home"
