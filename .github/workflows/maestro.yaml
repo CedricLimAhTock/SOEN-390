@@ -2,4 +2,5 @@ appId: host.exp.Exponent
 ---
 - launchApp
 - tapOn: "frontend"
+- tapOn: "This is the devleoper menu."
 
