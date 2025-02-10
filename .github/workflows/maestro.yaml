@@ -1,6 +1,8 @@
 appId: host.exp.Exponent
 ---
 - launchApp
+- stopApp
+- launchApp
 - tapOn: "frontend"
 - waitForAnimationToEnd:
     timeout: 100000
