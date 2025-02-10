@@ -46,3 +46,10 @@ jobs:
 
       - name: Run Maestro Tests
         run: maestro test .github/workflows/maestro.yaml
+
+      - name: Upload Screenshots
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: maestro-screenshots
+          path: screenshots/
