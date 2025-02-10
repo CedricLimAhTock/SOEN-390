@@ -41,13 +41,8 @@ jobs:
       - name: Start Expo and Open App in Simulator
         run: |
           cd frontend
-          npx expo start --ios &
-          sleep 20  # Wait for the server to initialize
-
-      - name: List Installed Apps on Simulator
-        run: |
-          echo "listing all installed apps on the simulator"
-          xcrun simctl listapps booted
+          npx expo start --ios 
+          sleep 40  # Wait for the server to initialize
 
       - name: Run Maestro Tests
         run: maestro test .github/workflows/maestro.yaml
