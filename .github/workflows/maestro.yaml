@@ -2,9 +2,5 @@ appId: host.exp.Exponent
 ---
 - launchApp
 - tapOn: "frontend"
-- tapOn: "SDK"
-- tapOn: "Continue"
-- tapOn: "Go Home"
-- tapOn: "frontend"
 - tapOn: "Continue as Guest"
 
