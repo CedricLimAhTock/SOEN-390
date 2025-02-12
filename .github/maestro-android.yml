@@ -1,0 +1,57 @@
+name: Android Emulator CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Make script executable
+        run: chmod +x ./frontend/androidTest.sh
+
+      - name: Install Deps
+        run: |
+          pwd
+          npm install
+        working-directory: frontend
+
+      - name: Install Expo CLI
+        run: |
+          pwd
+          npm install -g expo-cli
+        working-directory: frontend
+
+      - name: Install Maestro
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        working-directory: frontend
+        with:
+          api-level: 34
+          ram-size: 2048M
+          target: google_apis_playstore
+          arch: x86_64
+          script: |
+            cd frontend
+            pwd
+            expo start --tunnel --android &
+            sleep 30
+            maestro test frontend/maestro
