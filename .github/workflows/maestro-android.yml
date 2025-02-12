@@ -43,7 +43,6 @@ jobs:
 
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
-        working-directory: frontend
         with:
           api-level: 34
           ram-size: 2048M
